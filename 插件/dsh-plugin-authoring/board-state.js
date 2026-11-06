@@ -326,7 +326,10 @@ export async function getBoardState(options = {}) {
         outcome = run.outcome || "";
       }
 
-      if (gateStatus) {
+      if (run && !outcome) {
+        // 有 agent-start 但还没有 agent-end：说明这一轮正在跑（可能是在重跑，旧 gate 已过期）
+        status = "running";
+      } else if (gateStatus) {
         // 门禁产物是节点自己交出的确定性结论，优先于事件流里的 cancelled（整批中断时节点可能已跑完）
         status = gateStatus;
       } else if (run) {
