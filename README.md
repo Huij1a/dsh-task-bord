@@ -1,85 +1,97 @@
-# DSH 出题流水线任务看板
+# dsh-task-board
 
-出题流水线的可视化任务看板，四栏布局 + 工作流画布 + 子代理会话跳转。
+通用的 DSH 任务看板 + 工作流画布插件
 
-## 功能特性
+## 这是什么
 
-- **四栏看板**：草稿、正在跑、已完成、异常中断
-- **工作流可视化**：19 节点流程图（React Flow）
-- **子代理会话跳转**：点击节点直接打开对应子代理会话
-- **实时状态同步**：自动读取门禁结果和任务状态
+一个通用的任务看板插件，用于可视化多节点 workflow 的执行状态。
 
-## 插件结构
+**功能特性**：
+- 四栏看板（草稿、正在跑、已完成、异常中断）
+- React Flow 工作流画布（节点状态实时同步）
+- 子代理会话跳转（点击节点直接打开对应会话）
 
-```
-插件/dsh-plugin-authoring/
-├── index.js           # DSH 插件入口（Node 端工具）
-├── board-state.js     # 看板状态读取逻辑
-├── client.jsx         # 浏览器端 UI（React + React Flow）
-├── build-client.mjs   # esbuild 打包脚本
-└── package.json       # 依赖配置
-```
+**我们用它来做什么**：监控 19 节点出题流水线的执行状态
 
-## 安装
+**你可以用它来做什么**：任何需要可视化多节点 workflow 执行状态的场景（数据处理、测试任务、文档生成等）
 
-1. 确保 DSH profile 的 `cordis.patch.yml` 包含：
-```yaml
-- insert:
-    - name: dsh-plugin-authoring
-      config:
-        root: D:\高经出题流水线
-        templateDir: 母版
-        maxTasks: 200
-```
+## 快速开始
 
-2. 在 profile 的 `package.json` 添加依赖：
-```json
-{
-  "dependencies": {
-    "dsh-plugin-authoring": "file:D:/高经出题流水线/插件/dsh-plugin-authoring"
-  }
-}
-```
-
-3. 重启 DSH
-
-## 开发
-
-修改 `client.jsx` 后重新打包：
+### 1. 安装插件
 
 ```bash
 cd 插件/dsh-plugin-authoring
-node build-client.mjs
+pnpm install && pnpm run build
+
+cd "C:\Users\Administrator\.dsh\profiles\desktop"
+pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring"
 ```
+
+### 2. 配置插件
+
+编辑 `C:\Users\Administrator\.dsh\profiles\desktop\cordis.patch.yml`：
+
+```yaml
+- insert:
+  - name: dsh-plugin-authoring
+    config:
+      root: D:\你的项目目录
+      templateDir: 母版
+      maxTasks: 200
+```
+
+### 3. 重启 DSH
+
+重启后侧边栏会出现"任务看板"入口。
+
+## 数据格式
+
+看板通过读取标准化的文件结构来展示状态：
+
+```
+tasks/<任务ID>/
+├── manifest.json           # 任务元信息
+├── artifacts/<节点>/
+│   ├── _gate.json         # 门禁结果（必需）
+│   └── _session.json      # 会话 ID（可选，用于会话跳转）
+```
+
+只要你的 workflow 按这个结构输出产物，看板就能自动工作。详见 [插件/dsh-plugin-authoring/README.md](插件/dsh-plugin-authoring/README.md)。
+
+## 项目结构
+
+```
+.
+├── 插件/dsh-plugin-authoring/    # 通用任务看板插件
+│   ├── index.js                  # DSH 插件入口
+│   ├── board-state.js            # 看板状态读取
+│   ├── client.jsx                # 客户端 UI
+│   └── README.md                 # 插件文档
+│
+├── 母版/                         # 我们的出题 workflow 模板
+│   ├── workflow.js               # 19 节点编排脚本
+│   ├── prompts/                  # 节点提示词
+│   └── ...
+│
+├── tasks/                        # 任务实例（看板数据源）
+│   └── <任务ID>/
+│       ├── manifest.json
+│       └── artifacts/
+│
+└── docs/                         # 项目文档
+```
+
+## 开发
+
+- [插件开发文档](插件/dsh-plugin-authoring/README.md) - 插件 API 和扩展指南
+- [看板使用说明](docs/看板使用说明.md) - 用户指南和故障排查
 
 ## 技术栈
 
-- **后端**：Node.js（纯内置模块，零依赖）
-- **前端**：React 19 + React Flow 12
+- **前端**：React + React Flow
+- **后端**：DSH 插件（Node.js）
 - **构建**：esbuild
 
-## 出题流程
+## 许可
 
-19 个节点按顺序执行：
-
-1. `00_spec` - 读取项目规范
-2. `01_src` - 摘录素材
-3. `02_scrub` - 脱敏处理
-4. `03_survey` - 初步勘测
-5. `04_scope` - 确定交付规格
-6. `05_evidence` - 构建证据链
-7. `06_build` - 生成附件
-8. `07_metacheck` - 元数据检查
-9. `08_prompt` - 生成题面
-10. `09_style` - 润色优化
-11. `10_difficulty` - 难度标定
-12. `11_rubric` - 生成标答和考点
-13. `12_freeze` - 冻结题包
-14. `13_answer` - 独立作答
-15. `14_judge` - 自动评分
-16. `15_review` - 人工读卷
-17. `16_qc` - 质量检查
-18. `17_pack` - 打包输出
-19. `18_submit` - 提交交付
-
-每个节点结束后写入 `artifacts/<节点>/_gate.json` 门禁结果。
+MIT
