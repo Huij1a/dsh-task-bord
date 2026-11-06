@@ -1,308 +1,406 @@
 /**
- * 出题看板客户端入口（未打包版本，需要 esbuild 打包）
+ * 任务看板客户端（浏览器侧）。
+ *
+ * 打包约束：DSH 的浏览器插件必须是 `window.__ModuleLoader__.load({ id, factory })`
+ * 的 lazy-CJS 形态，`factory(require)` 里才能 require("react")。构建脚本
+ * build-client.mjs 负责把本文件打成 CJS 再套上这层壳。
  */
 import React from 'react';
-import { ReactFlow, ReactFlowProvider, Background, Controls, MarkerType } from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
+import {
+  ReactFlow,
+  ReactFlowProvider,
+  Background,
+  Controls,
+  Handle,
+  Position,
+} from '@xyflow/react';
+import xyflowStyles from '@xyflow/react/dist/style.css';
+import styles from './styles.gen.js';
 
-const BOARD_PANEL_ID = 'authoring-board';
+const PANEL_ID = 'authoring-board';
 const PANEL_ORDER = 25;
+const POLL_MS = 5000;
 
-/** 看板主界面 */
-function AuthoringBoard() {
-  const [tasks, setTasks] = React.useState([]);
-  const [selectedTask, setSelectedTask] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+const STATUS_LABEL = {
+  draft: '草稿',
+  running: '正在跑',
+  completed: '已完成',
+  failed: '异常中断',
+};
 
-  React.useEffect(() => {
-    fetchBoard();
-  }, []);
+const NODE_STATUS_LABEL = {
+  pending: '待执行',
+  running: '运行中',
+  passed: '已通过',
+  failed: '失败',
+};
 
-  async function fetchBoard() {
-    try {
-      const res = await fetch('/api/authoring/board');
-      const data = await res.json();
-      setTasks(data.tasks || []);
-    } catch (e) {
-      console.error('[authoring-board] fetch failed:', e);
-    } finally {
-      setLoading(false);
-    }
-  }
+let pluginCtx = null;
 
-  if (loading) {
-    return React.createElement('div', { style: { padding: '2rem' } }, '加载中...');
-  }
-
-  if (selectedTask) {
-    return React.createElement(WorkflowCanvas, {
-      task: selectedTask,
-      onBack: () => setSelectedTask(null),
-    });
-  }
-
-  return React.createElement(BoardColumns, { tasks, onSelectTask: setSelectedTask });
+function injectStyles() {
+  const existing = document.querySelector('style[data-plugin="dsh-plugin-authoring"]');
+  if (existing) return () => {};
+  const tag = document.createElement('style');
+  tag.dataset.plugin = 'dsh-plugin-authoring';
+  tag.textContent = `${xyflowStyles}\n${styles}`;
+  document.head.appendChild(tag);
+  return () => {
+    tag.remove();
+  };
 }
 
-/** 四栏看板 */
-function BoardColumns({ tasks, onSelectTask }) {
-  const columns = [
-    { key: 'draft', label: '草稿', status: 'draft' },
-    { key: 'running', label: '正在跑', status: 'running' },
-    { key: 'completed', label: '已完成', status: 'completed' },
-    { key: 'failed', label: '异常中断', status: 'failed' },
-  ];
+async function fetchBoard() {
+  const response = await fetch(`/api/authoring/board?t=${Date.now()}`, {
+    headers: { accept: 'application/json' },
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
 
-  const byStatus = {};
-  for (const col of columns) byStatus[col.status] = [];
+function relativeTime(value) {
+  if (!value) return '';
+  const diff = Date.now() - Number(value);
+  if (!Number.isFinite(diff) || diff < 0) return '';
+  const minute = 60 * 1000;
+  if (diff < minute) return '刚刚';
+  if (diff < 60 * minute) return `${Math.floor(diff / minute)} 分钟前`;
+  if (diff < 24 * 60 * minute) return `${Math.floor(diff / (60 * minute))} 小时前`;
+  return `${Math.floor(diff / (24 * 60 * minute))} 天前`;
+}
+
+function StatusDot({ status }) {
+  return <span className={`ab-dot ab-dot--${status}`} aria-hidden="true" />;
+}
+
+function BoardIcon({ size = 16 }) {
+  return (
+    <svg
+      data-dsh-panel-entry={PANEL_ID}
+      viewBox="0 0 16 16"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2" y="2.5" width="12" height="11" rx="2" />
+      <path d="M4.6 6h2.2M4.6 9h2.2M9.2 6h2.2M9.2 9h2.2" />
+    </svg>
+  );
+}
+
+function useBoardData() {
+  const [data, setData] = React.useState({ tasks: [], loading: true, error: null });
+
+  const load = React.useCallback(async (silent) => {
+    try {
+      const payload = await fetchBoard();
+      setData({ tasks: payload.tasks || [], loading: false, error: null });
+    } catch (error) {
+      setData((previous) => ({
+        tasks: silent ? previous.tasks : [],
+        loading: false,
+        error: error instanceof Error ? error.message : String(error),
+      }));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    load(false);
+    const timer = setInterval(() => load(true), POLL_MS);
+    return () => clearInterval(timer);
+  }, [load]);
+
+  return { ...data, reload: () => load(false) };
+}
+
+function BoardPage() {
+  const { tasks, loading, error, reload } = useBoardData();
+  const [selectedId, setSelectedId] = React.useState(null);
+  const [toast, setToast] = React.useState('');
+  const toastTimer = React.useRef(null);
+
+  const notify = React.useCallback((message) => {
+    setToast(message);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), 2600);
+  }, []);
+
+  const selected = tasks.find((task) => task.taskId === selectedId) || null;
+
+  return (
+    <div className="ab-root">
+      {selected ? (
+        <TaskCanvas task={selected} onBack={() => setSelectedId(null)} onRefresh={reload} notify={notify} />
+      ) : (
+        <BoardHome tasks={tasks} loading={loading} error={error} onRefresh={reload} onSelect={setSelectedId} />
+      )}
+      {toast ? <div className="ab-toast">{toast}</div> : null}
+    </div>
+  );
+}
+
+function BoardHome({ tasks, loading, error, onRefresh, onSelect }) {
+  const columns = [
+    { key: 'draft', label: '草稿', hint: '还没开始' },
+    { key: 'running', label: '正在跑', hint: '有节点在跑' },
+    { key: 'completed', label: '已完成', hint: '全流程通过' },
+    { key: 'failed', label: '异常中断', hint: '需要处理' },
+  ];
+  const grouped = { draft: [], running: [], completed: [], failed: [] };
   for (const task of tasks) {
-    const list = byStatus[task.status];
-    if (list) list.push(task);
+    (grouped[task.status] || grouped.draft).push(task);
   }
 
-  return React.createElement(
-    'div',
-    { style: { display: 'flex', gap: '1rem', padding: '1rem', height: '100%', overflow: 'auto' } },
-    ...columns.map((col) =>
-      React.createElement(
-        'div',
-        { key: col.key, style: { flex: 1, minWidth: 0 } },
-        React.createElement('h3', { style: { margin: '0 0 1rem', fontSize: '1rem', fontWeight: 600 } }, col.label),
-        React.createElement(
-          'div',
-          { style: { display: 'flex', flexDirection: 'column', gap: '0.5rem' } },
-          ...byStatus[col.status].map((task) =>
-            React.createElement(TaskCard, { key: task.taskId, task, onClick: () => onSelectTask(task) })
-          )
+  const running = grouped.running.length;
+  const total = tasks.length;
+
+  return (
+    <>
+      <header className="ab-header">
+        <div className="ab-header-text">
+          <div className="ab-title">任务看板</div>
+          <div className="ab-subtitle">
+            {loading && !total ? '加载中…' : `${total} 个任务${running ? ` · ${running} 个正在跑` : ''}`}
+          </div>
+        </div>
+        <div className="ab-header-actions">
+          <button type="button" className="ab-btn" onClick={onRefresh}>
+            刷新
+          </button>
+        </div>
+      </header>
+      {error ? <div className="ab-error">看板数据读取失败：{error}</div> : null}
+      <div className="ab-board">
+        {columns.map((column) => (
+          <section className="ab-column" key={column.key}>
+            <div className="ab-column-head">
+              <StatusDot status={column.key} />
+              <span className="ab-column-title">{column.label}</span>
+              <span className="ab-column-count">{grouped[column.key].length}</span>
+            </div>
+            <div className="ab-column-body">
+              {grouped[column.key].length === 0 ? (
+                <div className="ab-empty">{column.hint}</div>
+              ) : (
+                grouped[column.key].map((task) => (
+                  <TaskCard key={task.taskId} task={task} onClick={() => onSelect(task.taskId)} />
+                ))
+              )}
+            </div>
+          </section>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function TaskCard({ task, onClick }) {
+  return (
+    <button type="button" className={`ab-card ab-card--${task.status}`} onClick={onClick}>
+      <div className="ab-card-head">
+        <StatusDot status={task.status} />
+        <span className="ab-card-id">{task.taskId}</span>
+        <span className="ab-card-arrow">→</span>
+      </div>
+      <div className="ab-card-industry" title={task.industry}>
+        {task.industry || '未填写行业'}
+      </div>
+      <div className="ab-segs" aria-hidden="true">
+        {task.nodes.map((node) => (
+          <span key={node.name} className={`ab-seg ab-seg--${node.status}`} title={`${node.label} ${NODE_STATUS_LABEL[node.status]}`} />
+        ))}
+      </div>
+      <div className="ab-card-foot">
+        <span>
+          {task.passed}/{task.total} 节点
+        </span>
+        <span>{relativeTime(task.updatedAt)}</span>
+      </div>
+    </button>
+  );
+}
+
+function FlowNode({ data }) {
+  return (
+    <div className={`ab-node ab-node--${data.status}`}>
+      <Handle type="target" position={Position.Top} className="ab-handle" />
+      <div className="ab-node-top">
+        <span className="ab-node-index">{String(data.index).padStart(2, '0')}</span>
+        <span className={`ab-node-status ab-node-status--${data.status}`}>{NODE_STATUS_LABEL[data.status]}</span>
+      </div>
+      <div className="ab-node-label">{data.label}</div>
+      <div className="ab-node-name">{data.name}</div>
+      <Handle type="source" position={Position.Bottom} className="ab-handle" />
+    </div>
+  );
+}
+
+const NODE_TYPES = { authoringNode: FlowNode };
+
+function buildFlowGraph(taskNodes) {
+  const perRow = 5;
+  const gapX = 212;
+  const gapY = 118;
+  const nodes = taskNodes.map((node, index) => {
+    const row = Math.floor(index / perRow);
+    const column = index % perRow;
+    return {
+      id: node.name,
+      type: 'authoringNode',
+      position: {
+        x: (row % 2 === 0 ? column : perRow - 1 - column) * gapX,
+        y: row * gapY,
+      },
+      data: node,
+    };
+  });
+  const edges = [];
+  for (let index = 0; index < taskNodes.length - 1; index += 1) {
+    edges.push({
+      id: `edge-${index}`,
+      source: taskNodes[index].name,
+      target: taskNodes[index + 1].name,
+      type: 'straight',
+      animated: taskNodes[index + 1].status === 'running',
+    });
+  }
+  return { nodes, edges };
+}
+
+function TaskCanvas({ task, onBack, onRefresh, notify }) {
+  const { nodes, edges } = React.useMemo(() => buildFlowGraph(task.nodes), [task.nodes]);
+
+  const openSession = React.useCallback(
+    (node) => {
+      if (!node.sessionId) {
+        notify(`${node.label}（${node.name}）还没有运行记录`);
+        return;
+      }
+      const workspace = pluginCtx && typeof pluginCtx.get === 'function' ? pluginCtx.get('uiWorkspace') : null;
+      if (!workspace || typeof workspace.openSession !== 'function') {
+        notify('当前版本不支持打开子代理会话');
+        return;
+      }
+      try {
+        const address = {
+          parentSessionId: node.parentSessionId,
+          childSessionId: node.sessionId,
+          mode: 'continuable',
+        };
+        if (node.parentSessionId) {
+          // 先把父会话加载为在线会话，否则子代理会话会以「父会话不在线」只读打开。
+          workspace.openSession(node.parentSessionId);
+          window.setTimeout(() => {
+            try {
+              workspace.openSession(address);
+            } catch (error) {
+              notify(`打开会话失败：${error instanceof Error ? error.message : String(error)}`);
+            }
+          }, 150);
+          return;
+        }
+        workspace.openSession(address);
+      } catch (error) {
+        notify(`打开会话失败：${error instanceof Error ? error.message : String(error)}`);
+      }
+    },
+    [notify]
+  );
+
+  return (
+    <div className="ab-canvas-page">
+      <header className="ab-canvas-head">
+        <button type="button" className="ab-back" onClick={onBack} aria-label="返回看板">
+          ←
+        </button>
+        <div className="ab-canvas-title">
+          <div className="ab-canvas-id">{task.taskId}</div>
+          <div className="ab-canvas-meta">{task.industry}</div>
+        </div>
+        <span className={`ab-badge ab-badge--${task.status}`}>
+          <StatusDot status={task.status} />
+          {STATUS_LABEL[task.status]}
+        </span>
+        <div className="ab-canvas-progress">
+          {task.passed}/{task.total} 节点
+        </div>
+        <button type="button" className="ab-btn" onClick={onRefresh}>
+          刷新
+        </button>
+      </header>
+      <div className="ab-canvas">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={NODE_TYPES}
+          onNodeClick={(_event, node) => openSession(node.data)}
+          fitView
+          fitViewOptions={{ padding: 0.18 }}
+          minZoom={0.3}
+          maxZoom={1.4}
+          nodesDraggable={false}
+          nodesConnectable={false}
+          elementsSelectable
+          panOnScroll
+          proOptions={{ hideAttribution: true }}
+        >
+          <Background gap={22} size={1.4} />
+          <Controls showInteractive={false} />
+        </ReactFlow>
+      </div>
+      <div className="ab-canvas-hint">点节点打开对应子代理会话，可直接继续对话</div>
+    </div>
+  );
+}
+
+function registerBoardPanel(ctx) {
+  const disposers = [];
+  disposers.push(
+    ctx.slots.inject('sidebar.panellist', () =>
+      ctx.slots.register(
+        {
+          name: 'sidebar.panellist',
+          id: PANEL_ID,
+          order: PANEL_ORDER,
+          label: '任务看板',
+        },
+        BoardIcon
+      )
+    )
+  );
+  disposers.push(
+    ctx.slots.inject('main', () =>
+      ctx.slots.register(
+        {
+          name: 'main',
+          key: PANEL_ID,
+        },
+        () => (
+          <ReactFlowProvider>
+            <BoardPage />
+          </ReactFlowProvider>
         )
       )
     )
   );
-}
-
-/** 任务卡片 */
-function TaskCard({ task, onClick }) {
-  const statusDot = {
-    draft: '⚪',
-    running: '🟡',
-    completed: '🟢',
-    failed: '🔴',
-  }[task.status] || '⚪';
-
-  const passed = task.nodes.filter((n) => n.status === 'passed').length;
-  const total = task.nodes.length;
-  const summary = `${passed}/${total} 节点完成`;
-
-  return React.createElement(
-    'div',
-    {
-      onClick,
-      style: {
-        padding: '0.75rem',
-        border: '1px solid var(--dsw-alias-border-primary)',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        backgroundColor: 'var(--dsw-alias-bg-primary)',
-      },
-    },
-    React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' } },
-      React.createElement('span', null, statusDot),
-      React.createElement('span', { style: { fontWeight: 600, fontSize: '0.875rem' } }, task.taskId)
-    ),
-    React.createElement('div', { style: { fontSize: '0.75rem', color: 'var(--dsw-alias-label-tertiary)' } }, task.industry),
-    React.createElement('div', { style: { fontSize: '0.75rem', color: 'var(--dsw-alias-label-secondary)', marginTop: '0.25rem' } }, summary)
-  );
-}
-
-/** 工作流画布（React Flow 可视化） */
-function WorkflowCanvas({ task, onBack }) {
-  const { nodes, edges } = React.useMemo(() => buildFlowGraph(task.nodes), [task.nodes]);
-  
-  const onNodeClick = React.useCallback((event, node) => {
-    const nodeName = node.id;
-    const sessionId = node.data?.sessionId;
-    
-    if (!sessionId) {
-      console.log('[authoring-board] node session not found:', task.taskId, nodeName);
-      alert(`节点 ${nodeName} 的会话 ID 未找到\n\n可能原因:\n- 节点尚未执行\n- 任务使用旧版 workflow（未记录会话 ID）\n\n需要 workflow.js 在节点执行后记录 _session.json`);
-      return;
-    }
-
-    console.log('[authoring-board] opening node session:', task.taskId, nodeName, sessionId);
-    
-    // 尝试使用 ctx.uiWorkspace.openSession 打开会话
-    // 注意：ctx 需要从插件注入，这里先用 window.__DSH_CTX__ 作为备用
-    const ctx = window.__DSH_CTX__;
-    if (ctx?.uiWorkspace?.openSession) {
-      try {
-        ctx.uiWorkspace.openSession({ 
-          childSessionId: sessionId, 
-          mode: 'continuable' 
-        });
-      } catch (e) {
-        console.error('[authoring-board] failed to open session:', e);
-        alert(`打开会话失败: ${e.message}`);
-      }
-    } else {
-      console.warn('[authoring-board] uiWorkspace.openSession not available');
-      alert('会话打开功能不可用\n\n请确认 DSH 版本支持 uiWorkspace.openSession');
-    }
-  }, [task.taskId]);
-
-  return React.createElement(
-    'div',
-    { style: { display: 'flex', flexDirection: 'column', height: '100%' } },
-    React.createElement(
-      'div',
-      { style: { padding: '1rem', borderBottom: '1px solid var(--dsw-alias-border-primary)' } },
-      React.createElement(
-        'button',
-        { onClick: onBack, style: { padding: '0.5rem 1rem', cursor: 'pointer', marginRight: '1rem' } },
-        '← 返回'
-      ),
-      React.createElement('span', { style: { fontSize: '1.25rem', fontWeight: 600 } }, task.taskId)
-    ),
-    React.createElement(
-      'div',
-      { style: { flex: 1, position: 'relative' } },
-      React.createElement(ReactFlow, {
-        nodes,
-        edges,
-        onNodeClick,
-        fitView: true,
-        nodesDraggable: false,
-        nodesConnectable: false,
-        elementsSelectable: true,
-        panOnScroll: true,
-        zoomOnScroll: true,
-        minZoom: 0.5,
-        maxZoom: 1.5,
-      }, [
-        React.createElement(Background, { key: 'bg' }),
-        React.createElement(Controls, { key: 'ctrl' })
-      ])
-    )
-  );
-}
-
-/** 构建 React Flow 图结构 */
-function buildFlowGraph(taskNodes) {
-  const nodeSpacing = { x: 200, y: 100 };
-  const nodesPerRow = 5;
-  
-  const nodes = taskNodes.map((node, index) => {
-    const row = Math.floor(index / nodesPerRow);
-    const col = index % nodesPerRow;
-    
-    const statusColor = {
-      pending: '#94a3b8',
-      running: '#f59e0b',
-      passed: '#10b981',
-      failed: '#ef4444',
-    }[node.status] || '#94a3b8';
-    
-    const statusBg = {
-      pending: '#f1f5f9',
-      running: '#fef3c7',
-      passed: '#d1fae5',
-      failed: '#fee2e2',
-    }[node.status] || '#f1f5f9';
-
-    return {
-      id: node.name,
-      type: 'default',
-      position: { x: col * nodeSpacing.x, y: row * nodeSpacing.y },
-      data: { label: node.name },
-      style: {
-        padding: '10px 15px',
-        borderRadius: '6px',
-        border: `2px solid ${statusColor}`,
-        backgroundColor: statusBg,
-        color: '#1e293b',
-        fontSize: '12px',
-        fontWeight: 600,
-        cursor: 'pointer',
-        minWidth: '120px',
-        textAlign: 'center',
-      },
-    };
-  });
-
-  const edges = [];
-  for (let i = 0; i < taskNodes.length - 1; i++) {
-    edges.push({
-      id: `e${i}-${i+1}`,
-      source: taskNodes[i].name,
-      target: taskNodes[i+1].name,
-      type: 'smoothstep',
-      animated: taskNodes[i].status === 'running',
-      style: { stroke: '#64748b', strokeWidth: 2 },
-      markerEnd: { type: MarkerType.ArrowClosed, color: '#64748b' },
-    });
-  }
-
-  return { nodes, edges };
-}
-
-/** 看板图标 */
-function BoardPanelIcon({ size }) {
-  return React.createElement(
-    'svg',
-    {
-      'data-dsh-panel-entry': BOARD_PANEL_ID,
-      viewBox: '0 0 16 16',
-      width: size,
-      height: size,
-      fill: 'none',
-      stroke: 'currentColor',
-      strokeWidth: '1.3',
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-    },
-    React.createElement('rect', { x: '2', y: '2.5', width: '12', height: '11', rx: '1.5' }),
-    React.createElement('path', { d: 'M2 6.5h12M6.5 6.5v7M10.5 6.5v7' })
-  );
-}
-
-/** 注册看板面板 */
-function registerBoardPanel(ctx) {
-  const slots = ctx.slots;
-  const disposers = [];
-
-  disposers.push(
-    slots.inject('sidebar.panellist', () =>
-      slots.register(
-        {
-          name: 'sidebar.panellist',
-          id: BOARD_PANEL_ID,
-          order: PANEL_ORDER,
-          label: () => '出题看板',
-        },
-        BoardPanelIcon
-      )
-    )
-  );
-
-  disposers.push(
-    slots.inject('main', () =>
-      slots.register(
-        {
-          name: 'main',
-          key: BOARD_PANEL_ID,
-          inject: () => ({}),
-        },
-        () => React.createElement(ReactFlowProvider, null, React.createElement(AuthoringBoard))
-      )
-    )
-  );
-
   return () => {
-    for (const dispose of disposers.splice(0)) dispose();
+    for (const dispose of disposers.splice(0)) {
+      try {
+        dispose();
+      } catch {
+        // 注册清理失败不影响其它槽位
+      }
+    }
   };
 }
 
 export const inject = ['slots'];
 
 export function apply(ctx) {
-  ctx.effect(() => registerBoardPanel(ctx), 'authoring-board: register panel');
+  pluginCtx = ctx;
+  ctx.effect(() => injectStyles(), 'authoring-board: styles');
+  ctx.effect(() => registerBoardPanel(ctx), 'authoring-board: panel');
 }

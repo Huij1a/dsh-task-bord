@@ -12,12 +12,13 @@ import { promises as fs } from "node:fs";
 import { createHash } from "node:crypto";
 import { homedir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import zlib from "node:zlib";
 
 export const name = "plugin-authoring";
 
-/** 依赖的工具注册服务和 webServer；未挂载时插件不激活。 */
-export const inject = ["tools", "webServer"];
+/** 依赖的工具注册服务；未挂载时插件不激活。webServer 在 apply 里用 ctx.get 取，不阻塞启动。 */
+export const inject = ["tools"];
 
 const DEFAULT_ROOT = "D:\\高经出题流水线";
 const ID_RE = /^[A-Za-z0-9][A-Za-z0-9_-]{1,63}$/;
@@ -2308,20 +2309,33 @@ export function apply(ctx, config) {
     },
   }));
 
-  // 注册看板接口
-  ctx.webServer.register({
-    method: "GET",
-    path: "/api/authoring/board",
-    handler: async (req, res) => {
-      try {
-        const { getBoardState } = await import("./board-state.js");
-        const data = await getBoardState();
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(data));
-      } catch (e) {
-        res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: String(e.message || e) }));
-      }
-    },
-  });
+  // 注册看板接口：webServer 是可选服务，用 ctx.get 取，不写进 inject 以免启动被拖住
+  ctx.effect(() => {
+    const webServer = typeof ctx.get === "function" ? ctx.get("webServer") : null;
+    if (!webServer || typeof webServer.register !== "function") return;
+    return webServer.register({
+      kind: "exact",
+      path: "/api/authoring/board",
+      handler: async (req, res) => {
+        const method = (req && req.method) || "GET";
+        if (method !== "GET" && method !== "HEAD") {
+          res.writeHead(405, { "Content-Type": "application/json", Allow: "GET, HEAD" });
+          res.end(JSON.stringify({ error: "method not allowed" }));
+          return;
+        }
+        try {
+          const stateFile = fileURLToPath(new URL("./board-state.js", import.meta.url));
+        const stateUrl = new URL("./board-state.js", import.meta.url);
+        stateUrl.searchParams.set("v", String((await fs.stat(stateFile)).mtimeMs));
+        const { getBoardState } = await import(stateUrl.href);
+          const data = await getBoardState({ root, sessionsDir });
+          res.writeHead(200, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" });
+          res.end(JSON.stringify(data));
+        } catch (e) {
+          res.writeHead(500, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ error: String((e && e.message) || e) }));
+        }
+      },
+    });
+  }, "authoring: board api");
 }

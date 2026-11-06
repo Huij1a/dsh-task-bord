@@ -28,7 +28,11 @@ desktop.ini
 # Logs
 *.log
 
+# Build artifacts
+插件/dsh-plugin-authoring/styles.gen.js
+
 # Temp
 *.tmp
 .tmp/
 temp/
+tmp/
