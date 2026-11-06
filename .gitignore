@@ -1,38 +1,48 @@
-# Node
+# 忽略本地任务实例（除 T-demo 历史证据）
+tasks/T-202*/
+tasks/*/artifacts/
+tasks/*/_gate.json
+tasks/*/.tmp_*
+tasks/*/_killed_*
+tasks/*/看板卡片.json
+tasks/*/看板门禁.js
+
+# 忽略作答区（项目外）
+../高经作答区/
+
+# 忽略 Python 缓存
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 忽略 Node.js
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+插件/dsh-plugin-authoring/node_modules/
+pnpm-lock.yaml
 
-# DSH
-.dsh/
-sessions/
+# 忽略敏感配置
+.env
+.env.local
+.credentials.yaml
+*.log
 
-# Build outputs
-*.js.map
-*.css.map
-
-# OS
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor
-.vscode/
-.idea/
+# 忽略临时文件
+.tmp_*
+_killed_*
 *.swp
 *.swo
 *~
 
-# Logs
-*.log
+# 忽略 IDE
+.vscode/
+.idea/
+*.code-workspace
 
-# Build artifacts
-插件/dsh-plugin-authoring/styles.gen.js
+# 忽略打包清单
+pkg-manifest.json
 
-# Temp
-*.tmp
-.tmp/
-temp/
-tmp/
+# 保留 T-demo 历史证据（但忽略其 artifacts）
+!tasks/T-demo/
+!tasks/T-demo/manifest.json
+!tasks/T-demo/prompts/
+tasks/T-demo/artifacts/
