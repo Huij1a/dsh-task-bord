@@ -332,18 +332,18 @@
 }
 
 .ab-badge--running {
-  background: color-mix(in srgb, var(--dsw-alias-state-warn-primary, #e7a23b) 12%, transparent);
-  color: var(--dsw-alias-state-warn-primary, #b8741a);
+  background: color-mix(in srgb, var(--dsw-alias-state-warn-primary, #e7a23b) 14%, transparent);
+  color: #8a5a00;
 }
 
 .ab-badge--completed {
-  background: color-mix(in srgb, var(--dsw-alias-state-success-primary, #1f9d67) 12%, transparent);
-  color: var(--dsw-alias-state-success-primary, #16794f);
+  background: color-mix(in srgb, var(--dsw-alias-state-success-primary, #1f9d67) 14%, transparent);
+  color: #0f6b45;
 }
 
 .ab-badge--failed {
-  background: color-mix(in srgb, var(--dsw-alias-state-error-primary, #d93036) 12%, transparent);
-  color: var(--dsw-alias-state-error-primary, #b82329);
+  background: color-mix(in srgb, var(--dsw-alias-state-error-primary, #d93036) 14%, transparent);
+  color: #a61b22;
 }
 
 .ab-canvas-progress {
@@ -416,15 +416,15 @@
 }
 
 .ab-node-status--running {
-  color: var(--dsw-alias-state-warn-primary, #b8741a);
+  color: #8a5a00;
 }
 
 .ab-node-status--passed {
-  color: var(--dsw-alias-state-success-primary, #16794f);
+  color: #0f6b45;
 }
 
 .ab-node-status--failed {
-  color: var(--dsw-alias-state-error-primary, #b82329);
+  color: #a61b22;
 }
 
 .ab-node-label {
