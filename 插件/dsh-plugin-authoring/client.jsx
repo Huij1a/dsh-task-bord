@@ -105,10 +105,10 @@ function TaskCard({ task, onClick }) {
         backgroundColor: 'var(--dsw-alias-bg-primary)',
       },
     },
-    React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' } }, [
-      React.createElement('span', { key: 'dot' }, statusDot),
-      React.createElement('span', { key: 'id', style: { fontWeight: 600, fontSize: '0.875rem' } }, task.taskId),
-    ]),
+    React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' } },
+      React.createElement('span', null, statusDot),
+      React.createElement('span', { style: { fontWeight: 600, fontSize: '0.875rem' } }, task.taskId)
+    ),
     React.createElement('div', { style: { fontSize: '0.75rem', color: 'var(--dsw-alias-label-tertiary)' } }, task.industry),
     React.createElement('div', { style: { fontSize: '0.75rem', color: 'var(--dsw-alias-label-secondary)', marginTop: '0.25rem' } }, summary)
   );
@@ -161,10 +161,10 @@ function NodeRow({ node, taskId }) {
         backgroundColor: 'var(--dsw-alias-bg-primary)',
       },
     },
-    React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' } }, [
-      React.createElement('span', { key: 'dot', style: { color: statusColor } }, '●'),
-      React.createElement('span', { key: 'name', style: { fontWeight: 600, fontSize: '0.875rem' } }, node.name),
-    ]),
+    React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '0.5rem' } },
+      React.createElement('span', { style: { color: statusColor } }, '●'),
+      React.createElement('span', { style: { fontWeight: 600, fontSize: '0.875rem' } }, node.name)
+    ),
     React.createElement('div', { style: { fontSize: '0.75rem', color: 'var(--dsw-alias-label-secondary)', marginTop: '0.25rem' } }, summary)
   );
 }
