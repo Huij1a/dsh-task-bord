@@ -1,0 +1,38 @@
+{
+  "name": "dsh-plugin-authoring",
+  "version": "0.2.0",
+  "private": true,
+  "description": "19 节点出题流水线的 DSH 插件：开新题、校验冻结、查进度、取编排脚本、出题看板",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "engines": {
+      "dsh": ">=0.2.2-rc.1"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-session"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.3.5",
+    "esbuild": "^0.24.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "node build-client.mjs"
+  }
+}

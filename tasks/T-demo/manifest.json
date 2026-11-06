@@ -1,0 +1,109 @@
+{
+  "task": "T-demo",
+  "version": "v001",
+  "frozen_at": "2026-11-05T00:04:58",
+  "node_count": 19,
+  "files": [
+    {
+      "path": "prompts/00_master.md",
+      "bytes": 1799,
+      "sha256": "9d72f0c53adf7072871d8e980941a2b91c374b5015de156e5e089ae66aeaaf5c"
+    },
+    {
+      "path": "prompts/01_src.md",
+      "bytes": 1212,
+      "sha256": "e54a95d4b65f45cfb8fbd1ea9bb5fc76af8fbf5b65af65902632407a88eee9c3"
+    },
+    {
+      "path": "prompts/02_scrub.md",
+      "bytes": 1053,
+      "sha256": "e083d707270db6742673945ce7c56aaecb5d6a5405a4dd86ebd8a2fa7306b2c2"
+    },
+    {
+      "path": "prompts/03_survey.md",
+      "bytes": 1184,
+      "sha256": "4796dd101d8873b7fc4690653aa6222c080752a13b5a531edf60dc16585c7b0e"
+    },
+    {
+      "path": "prompts/04_scope.md",
+      "bytes": 1189,
+      "sha256": "e366df532906c458817c426edda0d42d00ac32f2f7ed389fe67f8606e38144e4"
+    },
+    {
+      "path": "prompts/05_evidence.md",
+      "bytes": 1898,
+      "sha256": "9c2ec0aa316221058205419c93cf3bd4c704a8fd6981f718e221dba44e0cff88"
+    },
+    {
+      "path": "prompts/06_build.md",
+      "bytes": 1469,
+      "sha256": "7e41311c8965f5ad85df0b69cca5ff9d2d79e991bff5b4f3e096f40caca99d0d"
+    },
+    {
+      "path": "prompts/07_metacheck.md",
+      "bytes": 1249,
+      "sha256": "619bd4a8056338015dbf280456a0fbc139eef7cd8cb7099c98f610dabc7724d3"
+    },
+    {
+      "path": "prompts/08_prompt.md",
+      "bytes": 1390,
+      "sha256": "0cd88bb46a51ada09b352af0391a18c1dddae618dc972252df7b655fce746c2d"
+    },
+    {
+      "path": "prompts/09_style.md",
+      "bytes": 1359,
+      "sha256": "f855ce8f8d82068f6b80d4889b10e2ed60d621534715b18ee3f1eaf06a41290f"
+    },
+    {
+      "path": "prompts/10_difficulty.md",
+      "bytes": 1318,
+      "sha256": "b5fbe49c0aad945d27f44e122d2d70a31752f2a2f3aab4d9c0ef06c37b132f62"
+    },
+    {
+      "path": "prompts/11_rubric.md",
+      "bytes": 1605,
+      "sha256": "248ac94cf388c9b8658f75863ac4f34deeafafd2d8f60194b6a21030693487ea"
+    },
+    {
+      "path": "prompts/12_freeze.md",
+      "bytes": 807,
+      "sha256": "999cf92a4bcba20bdb225d77bab2543f7f4bb58fe8ccc98d7a740184c080d770"
+    },
+    {
+      "path": "prompts/13_answer.md",
+      "bytes": 1306,
+      "sha256": "3c1c29e2b87df995b55e322a606a36e3935c5b1400542c380b212cb43f77258e"
+    },
+    {
+      "path": "prompts/14_score.md",
+      "bytes": 1118,
+      "sha256": "c05b745d2e09b15e9863a825436206b0c3996935bbee78ea987c809fb9efa462"
+    },
+    {
+      "path": "prompts/15_review.md",
+      "bytes": 1104,
+      "sha256": "b5393be71015eafa581cd9660df27eca58689990483e33d5cdfb5f0caf7d62d8"
+    },
+    {
+      "path": "prompts/16_qc.md",
+      "bytes": 1107,
+      "sha256": "a9f5b2d9cb363bc693f87f85e573b19e3b61b411cf5039aaa2384f5dd05d3ba9"
+    },
+    {
+      "path": "prompts/17_pack.md",
+      "bytes": 1005,
+      "sha256": "ac0d14923736997bccd5069e33ed71107c9611ddfd5a8b493f09767148224af9"
+    },
+    {
+      "path": "prompts/18_submit.md",
+      "bytes": 1395,
+      "sha256": "72efbc2be5c6a06869524b6267ed8e883383af69410fb7447f1fd7d18827fdfa"
+    },
+    {
+      "path": "workflow.js",
+      "bytes": 3680,
+      "sha256": "d5ba25977a41f15fdf0ea7958bc56d7563c8822ba6361271816353b8e6d0e6b4"
+    }
+  ],
+  "rule": "每题创建一份 prompts 副本并冻结；节点执行前校验 SHA-256，不一致拒绝执行。"
+}

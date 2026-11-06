@@ -1,0 +1,1893 @@
+{
+  "project": "高经济价值【八期】",
+  "industry": "金融服务",
+  "score_max": 50,
+  "score_rule": "<=",
+  "any_of": [
+    {
+      "metric": "rounds",
+      "op": ">=",
+      "value": 50
+    },
+    {
+      "metric": "minutes",
+      "op": ">",
+      "value": 40
+    }
+  ],
+  "freebie_ratio_max": null,
+  "platform_fields": [
+    {
+      "field_id": "PF01",
+      "name": "任务名称",
+      "order": 1,
+      "required": null,
+      "value_type": "text",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": null,
+      "source_id": "SPF01"
+    },
+    {
+      "field_id": "PF02",
+      "name": "任务类型",
+      "order": 2,
+      "required": null,
+      "value_type": "enum",
+      "enum_values": [
+        "经营与投资决策",
+        "数据、财务与业务运营",
+        "法务、合规与交易支持",
+        "客户与专业项目交付",
+        "持续运营与团队协作",
+        "工程、产品与专业研究"
+      ],
+      "enum_source": "《任务类型说明》表（本文件第45-58行）",
+      "value_rule": null,
+      "source_id": "SPF02"
+    },
+    {
+      "field_id": "PF03",
+      "name": "任务形式",
+      "order": 3,
+      "required": null,
+      "value_type": "enum",
+      "enum_values": [
+        "单轮",
+        "多轮"
+      ],
+      "enum_source": "《出题字段说明》表 任务形式 行",
+      "value_rule": null,
+      "source_id": "SPF03"
+    },
+    {
+      "field_id": "PF04",
+      "name": "L1行业",
+      "order": 4,
+      "required": null,
+      "value_type": "enum",
+      "enum_values": [
+        "金融服务",
+        "医疗与生命科学",
+        "电商、消费品与零售",
+        "制造与工业",
+        "科技、软件与数字基础设施",
+        "专业咨询服务",
+        "教育与科研",
+        "媒体、文化与娱乐",
+        "农业与食品产业链",
+        "政府与公共服务",
+        "法律服务",
+        "能源、公用事业与环保",
+        "交通、物流与出行",
+        "建筑、地产与物业服务",
+        "供应链管理",
+        "采购",
+        "影视文娱/新媒体（10月29新增）"
+      ],
+      "enum_source": "《行业分类》表 L1行业列（本文件第82-100行）",
+      "value_rule": "每次任务只能选择一个对应的L1行业，不能跨L1行业（L2行业无限制）",
+      "source_id": "SPF04"
+    },
+    {
+      "field_id": "PF05",
+      "name": "L2行业",
+      "order": 5,
+      "required": null,
+      "value_type": "enum",
+      "enum_values": [
+        "银行、支付与消费金融",
+        "证券、投行与资本市场",
+        "资管、PE/VC与投研",
+        "保险与财富管理",
+        "医疗机构",
+        "制药与生物技术",
+        "医疗器械与诊断",
+        "公共卫生与医疗服务",
+        "电商平台与商家",
+        "消费品牌与消费品",
+        "线下零售与本地生活",
+        "离散制造",
+        "流程制造",
+        "工业设备与自动化",
+        "企业软件与SaaS",
+        "互联网平台与数字产品",
+        "AI与数据技术",
+        "硬件、半导体、云与通信",
+        "战略、管理与运营咨询",
+        "财税、审计与风险咨询",
+        "市场研究、品牌与传播",
+        "人力与组织服务",
+        "基础教育",
+        "高等教育",
+        "职业与成人教育",
+        "教育支持服务",
+        "独立科研机构",
+        "媒体、出版与内",
+        "文化、娱乐与体育",
+        "农林牧渔",
+        "食品生产与供应链",
+        "政府机关与公共管理",
+        "事业单位与公共服务",
+        "社会组织与公益服务",
+        "诉讼与仲裁",
+        "商事与知识产权法律服务",
+        "公证、司法鉴定等法律服务",
+        "能源生产与矿业",
+        "公用事业",
+        "环保服务",
+        "物流与供应链",
+        "出行与运输服务",
+        "航空、铁路及公共交通",
+        "建筑与工程",
+        "房地产开发",
+        "物业与设施管理",
+        "需求预测与需求计划",
+        "供应计划与供需平衡",
+        "生产计划与排程",
+        "物料需求计划与缺料管理",
+        "库存控制与补货管理",
+        "供应链风险与异常协调",
+        "采购需求与技术规格管理",
+        "采购策略与供应商寻源",
+        "供应商评估与选择",
+        "询价招标、比价与成本分析",
+        "商务谈判与采购决策",
+        "采购合同准备与条款审查",
+        "采购订单核对与交接协同"
+      ],
+      "enum_source": "《行业分类》表 L2行业配额列（本文件第82-100行）",
+      "value_rule": "属于L1行业下的细分行业，从对应L1行业下的L2行业中单选",
+      "source_id": "SPF05"
+    },
+    {
+      "field_id": "PF06",
+      "name": "L1职业",
+      "order": 6,
+      "required": null,
+      "value_type": "enum",
+      "enum_values": [
+        "服务端/全栈开发",
+        "Web/泛前端开发",
+        "客户端开发",
+        "平台、基础设施与系统软件",
+        "数据工程与开发",
+        "游戏与互动/图形",
+        "安全工程",
+        "模型自动化研究",
+        "嵌入式",
+        "芯片设计",
+        "视觉设计",
+        "增长营销",
+        "金融分析师",
+        "数据分析",
+        "销售",
+        "咨询与战略",
+        "法律与合规",
+        "财务",
+        "产品",
+        "运营",
+        "人力",
+        "客服",
+        "制造",
+        "公务员",
+        "医生",
+        "K12教师",
+        "建筑设计与工程",
+        "能源与公用事业",
+        "通信运营商",
+        "交通物流",
+        "农林牧渔",
+        "生物制药",
+        "高校与科研机构（生物制药以外其他方向）",
+        "内容策划与项目开发",
+        "制片与项目管理",
+        "艺人经纪与人才合作",
+        "宣传与营销",
+        "发行与版权经营",
+        "商务合作与商业化",
+        "平台与内容运营",
+        "音乐与现场娱乐",
+        "投资、研究与业务保障"
+      ],
+      "enum_source": "高经济题目职业树_整理表.xlsx（职业树工作表 L1职业簇列）",
+      "value_rule": "从职业分类树的“职业簇”中单选；职业类型不能穷举，选择一个最贴近任务类型的L1职业即可",
+      "source_id": "SPF06"
+    },
+    {
+      "field_id": "PF07",
+      "name": "L2职业",
+      "order": 7,
+      "required": null,
+      "value_type": "enum",
+      "enum_values": null,
+      "enum_source": "高经济题目职业树_整理表.xlsx（职业树工作表 L2典型职业列）",
+      "value_rule": "填写实际执行任务的具体岗位，使用职业分类树“典型职业”的颗粒度；以职责和工作流为准",
+      "source_id": "SPF07"
+    },
+    {
+      "field_id": "PF08",
+      "name": "题目-文字",
+      "order": 8,
+      "required": null,
+      "value_type": "text",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": "题目表述在尽量真实的前提下应当没有歧义，清晰给出需要作答的内容和需要交付的产物",
+      "source_id": "SPF08"
+    },
+    {
+      "field_id": "PF09",
+      "name": "题目-附件",
+      "order": 9,
+      "required": null,
+      "value_type": "file",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": "大小不超过2G；支持pdf/word/txt/rar等多种格式；附件之间应服务于同一个复杂目标，不能只是多个无关材料的简单拼合",
+      "source_id": "SPF09"
+    },
+    {
+      "field_id": "PF10",
+      "name": "考点",
+      "order": 10,
+      "required": null,
+      "value_type": "text",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": "给出关键评分点、通过标准、枚举易错点、枚举正确答案",
+      "source_id": "SPF10"
+    },
+    {
+      "field_id": "PF11",
+      "name": "作答思路",
+      "order": 11,
+      "required": null,
+      "value_type": "text",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": "描述专家认为合理的完成路径，包括应如何拆解任务、使用哪些资料、关键判断点在哪里、容易出错的地方是什么",
+      "source_id": "SPF11"
+    },
+    {
+      "field_id": "PF12",
+      "name": "标准答案-文字",
+      "order": 12,
+      "required": null,
+      "value_type": "text",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": "如果题目有明确答案，给出完整标准答案或关键结论。如果题目偏开放，给出高质量参考答案，并说明它为什么好，包括结构、内容、判断质量、可执行性等",
+      "source_id": "SPF12"
+    },
+    {
+      "field_id": "PF13",
+      "name": "标准答案-附件",
+      "order": 13,
+      "required": null,
+      "value_type": "file",
+      "enum_values": null,
+      "enum_source": null,
+      "value_rule": "附件应与题目要求一一对应",
+      "source_id": "SPF13"
+    }
+  ],
+  "task_types": [
+    "经营与投资决策",
+    "数据、财务与业务运营",
+    "法务、合规与交易支持",
+    "客户与专业项目交付",
+    "持续运营与团队协作",
+    "工程、产品与专业研究"
+  ],
+  "industry_tree": {
+    "roots": [
+      {
+        "name": "金融服务",
+        "children": [
+          {
+            "name": "银行、支付与消费金融",
+            "children": []
+          },
+          {
+            "name": "证券、投行与资本市场",
+            "children": []
+          },
+          {
+            "name": "资管、PE/VC与投研",
+            "children": []
+          },
+          {
+            "name": "保险与财富管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "医疗与生命科学",
+        "children": [
+          {
+            "name": "医疗机构",
+            "children": []
+          },
+          {
+            "name": "制药与生物技术",
+            "children": []
+          },
+          {
+            "name": "医疗器械与诊断",
+            "children": []
+          },
+          {
+            "name": "公共卫生与医疗服务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "电商、消费品与零售",
+        "children": [
+          {
+            "name": "电商平台与商家",
+            "children": []
+          },
+          {
+            "name": "消费品牌与消费品",
+            "children": []
+          },
+          {
+            "name": "线下零售与本地生活",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "制造与工业",
+        "children": [
+          {
+            "name": "离散制造",
+            "children": []
+          },
+          {
+            "name": "流程制造",
+            "children": []
+          },
+          {
+            "name": "工业设备与自动化",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "科技、软件与数字基础设施",
+        "children": [
+          {
+            "name": "企业软件与SaaS",
+            "children": []
+          },
+          {
+            "name": "互联网平台与数字产品",
+            "children": []
+          },
+          {
+            "name": "AI与数据技术",
+            "children": []
+          },
+          {
+            "name": "硬件、半导体、云与通信",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "专业咨询服务",
+        "children": [
+          {
+            "name": "战略、管理与运营咨询",
+            "children": []
+          },
+          {
+            "name": "财税、审计与风险咨询",
+            "children": []
+          },
+          {
+            "name": "市场研究、品牌与传播",
+            "children": []
+          },
+          {
+            "name": "人力与组织服务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "教育与科研",
+        "children": [
+          {
+            "name": "基础教育",
+            "children": []
+          },
+          {
+            "name": "高等教育",
+            "children": []
+          },
+          {
+            "name": "职业与成人教育",
+            "children": []
+          },
+          {
+            "name": "教育支持服务",
+            "children": []
+          },
+          {
+            "name": "独立科研机构",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "媒体、文化与娱乐",
+        "children": [
+          {
+            "name": "媒体、出版与内",
+            "children": []
+          },
+          {
+            "name": "文化、娱乐与体育",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "农业与食品产业链",
+        "children": [
+          {
+            "name": "农林牧渔",
+            "children": []
+          },
+          {
+            "name": "食品生产与供应链",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "政府与公共服务",
+        "children": [
+          {
+            "name": "政府机关与公共管理",
+            "children": []
+          },
+          {
+            "name": "事业单位与公共服务",
+            "children": []
+          },
+          {
+            "name": "社会组织与公益服务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "法律服务",
+        "children": [
+          {
+            "name": "诉讼与仲裁",
+            "children": []
+          },
+          {
+            "name": "商事与知识产权法律服务",
+            "children": []
+          },
+          {
+            "name": "公证、司法鉴定等法律服务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "能源、公用事业与环保",
+        "children": [
+          {
+            "name": "能源生产与矿业",
+            "children": []
+          },
+          {
+            "name": "公用事业",
+            "children": []
+          },
+          {
+            "name": "环保服务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "交通、物流与出行",
+        "children": [
+          {
+            "name": "物流与供应链",
+            "children": []
+          },
+          {
+            "name": "出行与运输服务",
+            "children": []
+          },
+          {
+            "name": "航空、铁路及公共交通",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "建筑、地产与物业服务",
+        "children": [
+          {
+            "name": "建筑与工程",
+            "children": []
+          },
+          {
+            "name": "房地产开发",
+            "children": []
+          },
+          {
+            "name": "物业与设施管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "供应链管理",
+        "children": [
+          {
+            "name": "需求预测与需求计划",
+            "children": []
+          },
+          {
+            "name": "供应计划与供需平衡",
+            "children": []
+          },
+          {
+            "name": "生产计划与排程",
+            "children": []
+          },
+          {
+            "name": "物料需求计划与缺料管理",
+            "children": []
+          },
+          {
+            "name": "库存控制与补货管理",
+            "children": []
+          },
+          {
+            "name": "供应链风险与异常协调",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "采购",
+        "children": [
+          {
+            "name": "采购需求与技术规格管理",
+            "children": []
+          },
+          {
+            "name": "采购策略与供应商寻源",
+            "children": []
+          },
+          {
+            "name": "供应商评估与选择",
+            "children": []
+          },
+          {
+            "name": "询价招标、比价与成本分析",
+            "children": []
+          },
+          {
+            "name": "商务谈判与采购决策",
+            "children": []
+          },
+          {
+            "name": "采购合同准备与条款审查",
+            "children": []
+          },
+          {
+            "name": "采购订单核对与交接协同",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "影视文娱/新媒体（10月29新增）",
+        "children": []
+      }
+    ]
+  },
+  "occupation_tree": {
+    "source_file": "高经济题目职业树_整理表.xlsx",
+    "source_locator": "职业树工作表（第2-43行、A-F 共 6 列中的 5 个数据列：原表行号、板块、L1职业簇、L2典型职业、典型端到端核心工作流/任务分类；L2典型职业单元格内以换行分隔多个岗位）",
+    "roots": [
+      {
+        "name": "服务端/全栈开发",
+        "children": [
+          {
+            "name": "后端开发工程师（API、微服务、业务逻辑）",
+            "children": []
+          },
+          {
+            "name": "后端架构师(分布式系统、中间件、高并发）",
+            "children": []
+          },
+          {
+            "name": "全栈工程师 (前后端一体化、端到端交付)",
+            "children": []
+          },
+          {
+            "name": "AI应用/Agent工程师（模型接入、RAG、工具调用与工作流）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "Web/泛前端开发",
+        "children": [
+          {
+            "name": "Web前端工程师（Web/H5页面、PC与移动端）",
+            "children": []
+          },
+          {
+            "name": "小程序/跨端前端工程师（微信/支付宝小程序、快应用）",
+            "children": []
+          },
+          {
+            "name": "前端架构/工程化工程师",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "客户端开发",
+        "children": [
+          {
+            "name": "安卓开发（原生Android/Kotlin）",
+            "children": []
+          },
+          {
+            "name": "iOS开发（原生iOS/Swift)",
+            "children": []
+          },
+          {
+            "name": "鸿蒙开发(HarmonyOS/ArkTS)",
+            "children": []
+          },
+          {
+            "name": "跨平台/多端开发（Flutter、ReactNative)",
+            "children": []
+          },
+          {
+            "name": "桌面客户端工程师(Windows、macOS、Linux)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "平台、基础设施与系统软件",
+        "children": [
+          {
+            "name": "ML系统与训练优化工程师（ML Systems / Training & Inference Optimization Engineer）",
+            "children": []
+          },
+          {
+            "name": "平台工程师/PlatformEngineer（内部开发平台、服务目录、环境自助）",
+            "children": []
+          },
+          {
+            "name": "DevOps/SRE工程师（CI/CD、可观测性、可靠性工程）",
+            "children": []
+          },
+          {
+            "name": "基础设施工程师(云原生、K8s、网络、计算与存储)",
+            "children": []
+          },
+          {
+            "name": "数据库与中间件工程师(数据库内核、缓存、消息队列、分布式存储）",
+            "children": []
+          },
+          {
+            "name": "数据库运维/DBA（性能调优、备份恢复、高可用、Schema治理)",
+            "children": []
+          },
+          {
+            "name": "系统软件工程师(操作系统、编译器、运行时、基础工具链）",
+            "children": []
+          },
+          {
+            "name": "研发效能工程师/DeveloperProductivityEngineer",
+            "children": []
+          },
+          {
+            "name": "构建与工具链工程师/BuildEngineer",
+            "children": []
+          },
+          {
+            "name": "开发者工具工程师/DeveloperToolsEngineer（IDE、CLI、调试器、代码搜索)",
+            "children": []
+          },
+          {
+            "name": "测试基础设施工程师（测试框架、测试环境、CI质量平台）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "数据工程与开发",
+        "children": [
+          {
+            "name": "数据工程师（数据管道、ETL/ELT、流式计算）",
+            "children": []
+          },
+          {
+            "name": "分析工程师/AnalyticsEngineer（数据转换、指标建模、语义层）",
+            "children": []
+          },
+          {
+            "name": "数仓开发工程师(分层建模、数据集市、湖仓开发）",
+            "children": []
+          },
+          {
+            "name": "数据平台工程师（任务调度、元数据、数据治理平台）",
+            "children": []
+          },
+          {
+            "name": "BI开发工程师/BIDeveloper（语义模型、报表开发、可视化工程）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "游戏与互动/图形",
+        "children": [
+          {
+            "name": "游戏客户端工程师 (Unity/Unreal)",
+            "children": []
+          },
+          {
+            "name": "游戏服务端工程师(游戏后端、帧同步)",
+            "children": []
+          },
+          {
+            "name": "游戏玩法/逻辑工程师",
+            "children": []
+          },
+          {
+            "name": "图形渲染工程师(实时渲染、Shader)",
+            "children": []
+          },
+          {
+            "name": "XR/交互工程师(AR/VR/MR)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "安全工程",
+        "children": [
+          {
+            "name": "安全研发工程师(AppSec、SecDevOps)",
+            "children": []
+          },
+          {
+            "name": "安全研究员(漏洞挖掘、逆向）",
+            "children": []
+          },
+          {
+            "name": "安全平台工程师(安全工具链、SIEM)",
+            "children": []
+          },
+          {
+            "name": "AI安全工程师(模型安全、红队)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "模型自动化研究",
+        "children": [
+          {
+            "name": "Research Engineer(论文复现、实验工程)",
+            "children": []
+          },
+          {
+            "name": "模型训练工程师（Pre-training、Post-training)",
+            "children": []
+          },
+          {
+            "name": "对齐与强化学习工程师（RLHF、RLAIF、Alignment)",
+            "children": []
+          },
+          {
+            "name": "模型评测工程师(EvalHarness、Benchmark)",
+            "children": []
+          },
+          {
+            "name": "训练数据工程师(DataCuration、合成数据)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "嵌入式",
+        "children": [
+          {
+            "name": "嵌入式软件工程师（BSP、驱动）",
+            "children": []
+          },
+          {
+            "name": "IoT/车机工程师 (车载系统、智驾中间件)",
+            "children": []
+          },
+          {
+            "name": "工业控制/自动化软件工程师",
+            "children": []
+          },
+          {
+            "name": "固件工程师（Firmware、RTOS、Bootloader)",
+            "children": []
+          },
+          {
+            "name": "机器人软件/控制工程师(运动控制、仿真、机器人中间件)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "芯片设计",
+        "children": [
+          {
+            "name": "数字前端/RTL设计工程师(Verilog/SystemVerilog/Chisel)",
+            "children": []
+          },
+          {
+            "name": "验证工程师 (UVM/形式化验证）",
+            "children": []
+          },
+          {
+            "name": "FPGA开发工程师",
+            "children": []
+          },
+          {
+            "name": "SoC/架构工程师",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "视觉设计",
+        "children": [
+          {
+            "name": "UI/UX设计师",
+            "children": []
+          },
+          {
+            "name": "美术师",
+            "children": []
+          },
+          {
+            "name": "视觉资产设计师",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "增长营销",
+        "children": [
+          {
+            "name": "广告投手(search、social等)",
+            "children": []
+          },
+          {
+            "name": "KOL运营",
+            "children": []
+          },
+          {
+            "name": "电商运营",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "金融分析师",
+        "children": [
+          {
+            "name": "投行分析师",
+            "children": []
+          },
+          {
+            "name": "证券分析师",
+            "children": []
+          },
+          {
+            "name": "债券分析师",
+            "children": []
+          },
+          {
+            "name": "基金经理",
+            "children": []
+          },
+          {
+            "name": "VC/PE",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "数据分析",
+        "children": [
+          {
+            "name": "数据分析师、BI分析师、数据科学家、运营分析师、统计师、分析负责人",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "销售",
+        "children": [
+          {
+            "name": "销售，尤其是B2B销售和B2大C销售",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "咨询与战略",
+        "children": [
+          {
+            "name": "管理咨询、企业发展、Chief of Staff、企业战略；【搜索调研、数据分析任务，对其他职业的工作也有辐射作用】",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "法律与合规",
+        "children": [
+          {
+            "name": "法务、合规、审计、律师",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "财务",
+        "children": [
+          {
+            "name": "财务、会计、FP&A、财务BP、财务经理、财务运营",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "产品",
+        "children": [
+          {
+            "name": "产品经理、产品策略",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "运营",
+        "children": [
+          {
+            "name": "Business Operations、经营管理、经营计划、流程管理与业务转型、供应商管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "人力",
+        "children": [
+          {
+            "name": "人力资源(HR)、招聘、HRBP、行政支持",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "客服",
+        "children": [
+          {
+            "name": "电话客服、文字客服（电销 vs 销售，其实更接近客服）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "制造",
+        "children": [
+          {
+            "name": "系统工程师、机械/电气研发、产品工程师、配置/BOM工程师；工艺工程师、制造工程师、IE、NPI、测试/工装工程师；质量工程师、SQE、CQE、体系质量、可靠性/验证工程师",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "公务员",
+        "children": [
+          {
+            "name": "政策研究与规划、政府办公厅与综合管理、监管执法、政务服务、公共事业管理、应急管理、政府数据与数字政务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "医生",
+        "children": [
+          {
+            "name": "医生、临床研究与医疗辅助人员、医疗编码、病历及健康信息管理、医保审核与 Prior Authorization、收入周期管理、医院运营与健康管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "K12教师",
+        "children": [
+          {
+            "name": "K12教师",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "建筑设计与工程",
+        "children": [
+          {
+            "name": "建筑师",
+            "children": []
+          },
+          {
+            "name": "城市规划师",
+            "children": []
+          },
+          {
+            "name": "土木/结构工程师",
+            "children": []
+          },
+          {
+            "name": "工程咨询",
+            "children": []
+          },
+          {
+            "name": "房地产投资与开发",
+            "children": []
+          },
+          {
+            "name": "造价与招采",
+            "children": []
+          },
+          {
+            "name": "物业与设施管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "能源与公用事业",
+        "children": [
+          {
+            "name": "电力系统与电气工程师、发电及电网运行、能源交易与市场分析、油气与石化工程、设备可靠性与资产管理、风光储开发、调度控制、HSE、监管与可持续发展",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "通信运营商",
+        "children": [
+          {
+            "name": "网络规划与优化工程师、核心网/无线/传输工程师、通信系统架构师、网络运维与 NOC、OSS/BSS产品及运营、计费与客户运营、政企解决方案与交付",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "交通物流",
+        "children": [
+          {
+            "name": "物流规划师、物流分析师、运输调度、仓储与配送运营、航空/港口/铁路运营、车队与运力管理、交通规划、运输设备检查、安全与合规管理",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "农林牧渔",
+        "children": [
+          {
+            "name": "农艺师、农业工程师、精准农业技术人员、土壤与植物科学家、养殖及动物科学、农场与林业经营管理、农业物流、农产品质量与供应链、农业保险与技术服务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "生物制药",
+        "children": [
+          {
+            "name": "生物化学家",
+            "children": []
+          },
+          {
+            "name": "生物信息学家",
+            "children": []
+          },
+          {
+            "name": "临床开发与临床运营",
+            "children": []
+          },
+          {
+            "name": "生物统计",
+            "children": []
+          },
+          {
+            "name": "医学事务",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "高校与科研机构（生物制药以外其他方向）",
+        "children": [
+          {
+            "name": "数学、应用数学",
+            "children": []
+          },
+          {
+            "name": "物理学",
+            "children": []
+          },
+          {
+            "name": "材料科学",
+            "children": []
+          },
+          {
+            "name": "化学",
+            "children": []
+          },
+          {
+            "name": "各种工程学科：如电子、机械等",
+            "children": []
+          },
+          {
+            "name": "社会科学",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "内容策划与项目开发",
+        "children": [
+          {
+            "name": "IP开发/版权开发(题材挖掘、改编开发)",
+            "children": []
+          },
+          {
+            "name": "影视策划/项目开发（项目定位、方案策划）",
+            "children": []
+          },
+          {
+            "name": "文学策划／剧本编辑 (剧本评估、开发跟进)",
+            "children": []
+          },
+          {
+            "name": "编剧／编剧策划(故事、大纲、剧本创作)",
+            "children": []
+          },
+          {
+            "name": "综艺策划／节目研发(节目模式、环节设计）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "制片与项目管理",
+        "children": [
+          {
+            "name": "制片人/项目制片(项目整体统筹）",
+            "children": []
+          },
+          {
+            "name": "执行制片／制片主任 (预算与制作执行)",
+            "children": []
+          },
+          {
+            "name": "制片统筹/项目统筹 (排期、资源协调)",
+            "children": []
+          },
+          {
+            "name": "制片助理／制片协调 (日常流程执行)",
+            "children": []
+          },
+          {
+            "name": "后期制片/交付统筹（后期进度、供应商管理）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "艺人经纪与人才合作",
+        "children": [
+          {
+            "name": "艺人经纪 (职业规划、合作谈判)",
+            "children": []
+          },
+          {
+            "name": "执行经纪/经纪助理(档期、行程与履约)",
+            "children": []
+          },
+          {
+            "name": "艺人统筹／嘉宾统筹 (邀约、项目协调)",
+            "children": []
+          },
+          {
+            "name": "选角/演员统筹 (角色筛选、试镜组织)",
+            "children": []
+          },
+          {
+            "name": "艺人宣传/艺人运营(形象、账号与粉丝运营)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "宣传与营销",
+        "children": [
+          {
+            "name": "宣传策划/营销策划 (传播策略、推广节奏)",
+            "children": []
+          },
+          {
+            "name": "宣传文案/内容营销 (卖点、话题与文案)",
+            "children": []
+          },
+          {
+            "name": "媒介／媒体公关 (媒体合作、采访报道)",
+            "children": []
+          },
+          {
+            "name": "社交媒体/社区运营（账号、话题与社群)",
+            "children": []
+          },
+          {
+            "name": "活动宣传/路演统筹(发布会、首映及路演)",
+            "children": []
+          },
+          {
+            "name": "广告投放/效果营销 (投放、转化与效果优化)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "发行与版权经营",
+        "children": [
+          {
+            "name": "电影发行/院线发行（上映、院线影院合作）",
+            "children": []
+          },
+          {
+            "name": "剧集发行/平台发行 (电视台、视频平台销售)",
+            "children": []
+          },
+          {
+            "name": "海外发行／国际销售 (海外市场与渠道拓展)",
+            "children": []
+          },
+          {
+            "name": "版权销售/版权运营 (授权、收益管理)",
+            "children": []
+          },
+          {
+            "name": "内容采购/版权采购(内容评估、引进采购)",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "商务合作与商业化",
+        "children": [
+          {
+            "name": "招商／品牌商务(冠名、赞助与品牌合作)",
+            "children": []
+          },
+          {
+            "name": "植入策划/商务策划(品牌权益、内容融合方案)",
+            "children": []
+          },
+          {
+            "name": "商务执行／客户管理 (权益交付、客户维护)",
+            "children": []
+          },
+          {
+            "name": "IP授权/衍生品开发(联名、商品及授权业务)",
+            "children": []
+          },
+          {
+            "name": "商业化运营 (收入模式与资源整合）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "平台与内容运营",
+        "children": [
+          {
+            "name": "内容运营/频道运营（内容供给、专题与排播）",
+            "children": []
+          },
+          {
+            "name": "用户运营/会员运营（活跃、留存与付费）",
+            "children": []
+          },
+          {
+            "name": "创作者运营/机构运营（作者、工作室及机构合作）",
+            "children": []
+          },
+          {
+            "name": "短剧运营/账号运营（上线、增长与商业表现）",
+            "children": []
+          },
+          {
+            "name": "内容策略/数据分析(受众、趋势及内容表现研究）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "音乐与现场娱乐",
+        "children": [
+          {
+            "name": "音乐企划/A&R（音乐人发掘、作品方向规划）",
+            "children": []
+          },
+          {
+            "name": "音乐版权/唱片运营（歌曲及录音制品经营）",
+            "children": []
+          },
+          {
+            "name": "演出策划/演出项目管理(演唱会、音乐节等项目）",
+            "children": []
+          },
+          {
+            "name": "演出商务／巡演统筹 (主办方、场地及巡演合作)",
+            "children": []
+          },
+          {
+            "name": "票务运营/观众运营（票务渠道、销售与观众维护）",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "投资、研究与业务保障",
+        "children": [
+          {
+            "name": "影视投资/项目评估 (投资分析、交易推进)",
+            "children": []
+          },
+          {
+            "name": "行业研究／市场研究(题材、受众与竞品分析）",
+            "children": []
+          },
+          {
+            "name": "版权法务/娱乐法务（合同、权利及授权事务）",
+            "children": []
+          },
+          {
+            "name": "备案报审/内容合规（备案、送审及材料管理）",
+            "children": []
+          },
+          {
+            "name": "项目财务/制片财务(预算、成本、结算与核算)",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "forbidden": [
+    "本任务不支持纯代码",
+    "不支持视频生成、图片生成、选题策划等偏创意、内容策划类题目",
+    "不收与业务工作场景无关的题目，如纯计算题、纯文案生成",
+    "禁止跨行业出题：单期任务内只能选择自己 L1 行业中的题目",
+    "任务必须真实，具有现实意义，不能是架空场景或者虚构场景",
+    "禁止同质化出题：同一专家的6题至少应在任务目标、工作流程、任务类型或最终产物中的两个方面存在实质差异",
+    "单人出题上限6道，最多出6题",
+    "禁止重复出题：与其他任务（进行中或已结束）相似度高的题目按作废处理",
+    "禁止模版化出题",
+    "禁止套用公开评测集/竞赛题：禁止对公开评测集仅修改数据就提交",
+    "不纳入简单知识问答（主要考察“知不知道”，结果不会进入真实工作流程）",
+    "不纳入单点事实、日期或定义查询",
+    "不纳入单篇文章或单份材料摘要",
+    "不纳入普通润色、翻译、排版和简单制图",
+    "不纳入玩具代码和一次性小页面",
+    "不纳入靠扩大范围制造的“长任务”",
+    "不纳入多个互不相关的小任务拼接",
+    "不纳入缺少关键材料或权限的任务"
+  ],
+  "deadlines": [
+    {
+      "deadline_id": "DL01",
+      "label": "收题周期（提交截止）",
+      "kind": "submission",
+      "raw_value": "11月4日-11月9日23:59:59分",
+      "normalized_value": null,
+      "timezone": null,
+      "source_id": "S033"
+    },
+    {
+      "deadline_id": "DL02",
+      "label": "质检周期",
+      "kind": "qa",
+      "raw_value": "收题结束后2-3周内（依实际情况而定）",
+      "normalized_value": null,
+      "timezone": null,
+      "source_id": "S034"
+    },
+    {
+      "deadline_id": "DL03",
+      "label": "返修周期",
+      "kind": "repair",
+      "raw_value": "质检结果公布后两日内需完成返修",
+      "normalized_value": null,
+      "timezone": null,
+      "source_id": "S035"
+    },
+    {
+      "deadline_id": "DL04",
+      "label": "返修三阶段最后时间",
+      "kind": "stage_final",
+      "raw_value": "11月10日14:30前",
+      "normalized_value": null,
+      "timezone": null,
+      "source_id": "S036"
+    }
+  ],
+  "quality_gates": [
+    {
+      "gate_id": "QG01",
+      "name": "题目要素完备",
+      "rule": "提示词、附件、标答、考点等信息完备且符合规范",
+      "applies_to": "17",
+      "source_id": "S037"
+    },
+    {
+      "gate_id": "QG02",
+      "name": "题目完备性、AI率检测、高经济价值三项通过",
+      "rule": "题目完备性、AI率检测、高经济价值三项通过",
+      "applies_to": "16",
+      "source_id": "S038"
+    },
+    {
+      "gate_id": "QG03",
+      "name": "题目足够困难",
+      "rule": "Sota模型得分率<=50分（必须满足）；Sota模型执行轮数>=50步或运行时间>40分钟，二选一即达标",
+      "applies_to": "16",
+      "source_id": "S039"
+    },
+    {
+      "gate_id": "QG04",
+      "name": "附件与提示词相关",
+      "rule": "提供的附件必须与提示词相关",
+      "applies_to": "05",
+      "source_id": "S040"
+    }
+  ],
+  "attachment_policy": {
+    "allowed_formats": [
+      "pdf",
+      "word",
+      "txt",
+      "rar"
+    ],
+    "max_bytes": 2147483648,
+    "max_count": null,
+    "naming_rule": null,
+    "rule": "可以直接上传文件或压缩包；大小不超过2G；支持pdf/word/txt/rar等多种格式，其他格式不确定能否上传；附件之间应服务于同一个复杂目标，不能只是多个无关材料的简单拼合"
+  },
+  "history_refs": null,
+  "source": [
+    {
+      "source_id": "S001",
+      "key": "project",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "# 高经济价值【八期】任务说明文档LANCER\\.V1 ",
+      "locator": "第1行 文档标题",
+      "normalized_value": "高经济价值【八期】",
+      "derivation": "标题“# 高经济价值【八期】任务说明文档LANCER\\.V1”去掉文档类型后缀“任务说明文档LANCER.V1”与 Markdown 转义后得到项目名"
+    },
+    {
+      "source_id": "S002",
+      "key": "industry",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|金融服务|银行、支付与消费金融；证券、投行与资本市场；资管、PE/VC与投研；保险与财富管理|",
+      "locator": "第84行《行业分类》表 金融服务 行",
+      "normalized_value": "金融服务",
+      "derivation": "args.industry=“金融服务/银行、支付与消费金融”，取其中 L1 节点“金融服务”作为门槛 industry；L2 路径见 industry_tree 第一根节点"
+    },
+    {
+      "source_id": "S003",
+      "key": "score_max",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|Sota模型得分率（必须满足）|\\<= 50 分<br>|",
+      "locator": "第160行《收题难度要求》指标表 Sota模型得分率 行",
+      "normalized_value": 50,
+      "derivation": "原文“<= 50 分”为得分率上限，取百分号前的数值 50，不是题目总分"
+    },
+    {
+      "source_id": "S004",
+      "key": "score_rule",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|Sota模型得分率（必须满足）|\\<= 50 分<br>|",
+      "locator": "第160行《收题难度要求》指标表 Sota模型得分率 行",
+      "normalized_value": "<=",
+      "derivation": "原文比较语义“<=”直译为 JSON 运算符 <=，modelscore 需小于等于 score_max"
+    },
+    {
+      "source_id": "S005",
+      "key": "any_of",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|Sota模型执行轮数 |\\> =50 步||",
+      "locator": "第161行《收题难度要求》指标表 Sota模型执行轮数 行",
+      "normalized_value": {
+        "metric": "rounds",
+        "op": ">=",
+        "value": 50
+      },
+      "derivation": "“Sota模型执行轮数 |\\> =50 步”中的“轮数”按第160行补充知识“一个执行轮次的边界就是一次完整的模型决策输出，也就是模型生成的 assistant message 条数”映射为 judge 指标 rounds，比较符 >=，值 50"
+    },
+    {
+      "source_id": "S006",
+      "key": "any_of",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|Sota模型运行时间|\\> 40 分钟||",
+      "locator": "第162行《收题难度要求》指标表 Sota模型运行时间 行",
+      "normalized_value": {
+        "metric": "minutes",
+        "op": ">",
+        "value": 40
+      },
+      "derivation": "“运行时间|\\> 40 分钟”的单位已是分钟，直接映射 judge 指标 minutes，比较符 >，值 40"
+    },
+    {
+      "source_id": "S007",
+      "key": "any_of",
+      "file": "一个行业，怎么轻松出满 8 道高经济价值难题？.md",
+      "quote": "| **合格线** | 放到当前Sota模型上跑，得分率 ≤ 50%；执行轮数 ≥ 50 步，或运行时长 > 40 分钟（二选一）。 |",
+      "locator": "第10行《出题标准》表 合格线 行",
+      "normalized_value": "轮数或时间二选一",
+      "derivation": "“执行轮数 ≥ 50 步，或运行时长 > 40 分钟（二选一）”确认 any_of 为 OR 语义，与主规范第156行“轮数、时间二选一即为达标”一致"
+    },
+    {
+      "source_id": "S008",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|字段|如何填写|填写要求|",
+      "locator": "第29行《出题字段说明》表 表头",
+      "normalized_value": "字段|如何填写|填写要求",
+      "derivation": "投稿平台栏位表，共13个栏位，按第31-43行原顺序采集"
+    },
+    {
+      "source_id": "SPF01",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**任务名称**|专家填写|简单的一句话概括这个任务要做什么|",
+      "locator": "第31行《出题字段说明》表 任务名称 行",
+      "normalized_value": "任务名称"
+    },
+    {
+      "source_id": "SPF02",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**任务类型**|专家填写|以最终用途和交付为准，选择最主要的一类；（具体类型见下文任务类型说明）|",
+      "locator": "第32行《出题字段说明》表 任务类型 行",
+      "normalized_value": "任务类型"
+    },
+    {
+      "source_id": "SPF03",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**任务形式**|单选|单轮或多轮，多轮需说明真实的承接关系|",
+      "locator": "第33行《出题字段说明》表 任务形式 行",
+      "normalized_value": "任务形式"
+    },
+    {
+      "source_id": "SPF04",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**L1行业**<br>（一级行业）<br>|无需填写<br>|按照出题任务所在的行业进行选择，行业已经分好，专家按照自己出题行业进行选择<br>**注意事项：**<br>每次任务只能选择一个对应的L1行业，不能跨L1行业（L2行业无限制）|",
+      "locator": "第34行《出题字段说明》表 L1行业 行",
+      "normalized_value": "L1行业"
+    },
+    {
+      "source_id": "SPF05",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**L2行业**<br>（二级行业）|无需填写<br>|属于L1行业下的细分行业，从对应L1行业下的L2行业中单选<br>|",
+      "locator": "第35行《出题字段说明》表 L2行业 行",
+      "normalized_value": "L2行业"
+    },
+    {
+      "source_id": "SPF06",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**L1职业**<br>|单选<br>|按主要负责最终交付的人，从职业分类树的“职业簇”中单选<br>**注意事项：**<br>职业类型不能穷举，选择一个最贴近任务类型的L1职业即可|",
+      "locator": "第36行《出题字段说明》表 L1职业 行",
+      "normalized_value": "L1职业"
+    },
+    {
+      "source_id": "SPF07",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**L2职业**<br>|单选<br>|填写实际执行任务的具体岗位，使用职业分类树“典型职业”的颗粒度；以职责和工作流为准<br>**注意事项：**<br>职业类型不能穷举，选择一个最贴近任务类型的L1职业即可|",
+      "locator": "第37行《出题字段说明》表 L2职业 行",
+      "normalized_value": "L2职业"
+    },
+    {
+      "source_id": "SPF08",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**题目\\-文字**|专家填写|题目表述在尽量真实的前提下应当没有歧义，清晰给出需要作答的内容和需要交付的产物|",
+      "locator": "第38行《出题字段说明》表 题目-文字 行",
+      "normalized_value": "题目-文字"
+    },
+    {
+      "source_id": "SPF09",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**题目\\-附件**<br>|专家填写<br>|提供完成任务所需的真实或仿真材料，例如文档、表格、访谈记录、项目资料、业务数据、参考模板等。附件之间应服务于同一个复杂目标，不能只是多个无关材料的简单拼合<br>**注意事项：**<br>- 文件大小：可以直接上传文件或压缩包，**大小不超过2G**<br>- 格式：支持pdf/word/txt/rar等多种格式，其他格式不确定能否上传，可直接询问豆包是否支持<br>- 专家可根据自己需求判断附件是否需要脱敏|",
+      "locator": "第39行《出题字段说明》表 题目-附件 行",
+      "normalized_value": "题目-附件"
+    },
+    {
+      "source_id": "SPF10",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**考点**<br>|专家填写<br>|给出关键评分点、通过标准、枚举易错点、枚举正确答案<br>**注意事项：**<br>没写过考点的老师，可以先去公开网站搜索如何设计考点|",
+      "locator": "第40行《出题字段说明》表 考点 行",
+      "normalized_value": "考点"
+    },
+    {
+      "source_id": "SPF11",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**作答思路**<br>|专家填写|描述专家认为合理的完成路径，包括应如何拆解任务、使用哪些资料、关键判断点在哪里、容易出错的地方是什么|",
+      "locator": "第41行《出题字段说明》表 作答思路 行",
+      "normalized_value": "作答思路"
+    },
+    {
+      "source_id": "SPF12",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**标准答案\\-文字**<br>|专家填写<br>|如果题目有明确答案，给出完整标准答案或关键结论。<br>如果题目偏开放，给出高质量参考答案，并说明它为什么好，包括结构、内容、判断质量、可执行性等。|",
+      "locator": "第42行《出题字段说明》表 标准答案-文字 行",
+      "normalized_value": "标准答案-文字"
+    },
+    {
+      "source_id": "SPF13",
+      "key": "platform_fields",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**标准答案\\-附件**<br>|专家填写|提供标准答案对应的附件，例如最终报告、整理后的表格、评分样例、参考文件、可视化结果、交付物模板等，附件应与题目要求一一对应|",
+      "locator": "第43行《出题字段说明》表 标准答案-附件 行",
+      "normalized_value": "标准答案-附件"
+    },
+    {
+      "source_id": "S020",
+      "key": "task_types",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|经营与投资决策<br>|投资尽调、选址、融资匹配、市场进入、预算与资源配置|决定投不投、做不做、先研究谁，以及把钱和人投到哪里<br>|\n|数据、财务与业务运营<br>|真实业务数据清洗、财务归并、归因分析、采购优化、运营监控|调整预算、下单、复盘经营、识别异常或形成长期底表|\n|法务、合规与交易支持<br>|合同审阅、诉讼文书、监管回复、董事会文件、税务与广告合规|签约、申报、应诉、交割、付款或降低监管和损失风险|\n|客户与专业项目交付<br>|客户方案、设计提案、申报材料、正式研究报告和可交付文件|客户评审、项目立项、获取经费、推进销售或进入下一阶段制作|\n|持续运营与团队协作<br>|每日或每周监控、跨周期事项维护、多人协作和行动闭环|持续跟踪信号、分配责任、更新状态并减少重复人工|\n|工程、产品与专业研究<br>|生产问题定位、系统或工具建设、训练方案、实验设计和工程验证|修复生产问题、确定技术路线、完成原型或进入正式研发|",
+      "locator": "第51-58行《任务类型说明》表（6个任务类型行）",
+      "normalized_value": [
+        "经营与投资决策",
+        "数据、财务与业务运营",
+        "法务、合规与交易支持",
+        "客户与专业项目交付",
+        "持续运营与团队协作",
+        "工程、产品与专业研究"
+      ],
+      "derivation": "按表格行顺序提取第1列“任务类型”，去掉行内 <br> 后得到 6 个值"
+    },
+    {
+      "source_id": "S021",
+      "key": "industry_tree",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|L1行业|L2行业配额|\n|---|---|\n|金融服务|银行、支付与消费金融；证券、投行与资本市场；资管、PE/VC与投研；保险与财富管理|\n|医疗与生命科学|医疗机构；制药与生物技术；医疗器械与诊断；公共卫生与医疗服务|\n|电商、消费品与零售|电商平台与商家；消费品牌与消费品；线下零售与本地生活|\n|制造与工业|离散制造；流程制造；工业设备与自动化|\n|科技、软件与数字基础设施|企业软件与SaaS；互联网平台与数字产品；AI与数据技术；硬件、半导体、云与通信|\n|专业咨询服务|战略、管理与运营咨询；财税、审计与风险咨询；市场研究、品牌与传播；人力与组织服务|\n|教育与科研|基础教育；高等教育；职业与成人教育；教育支持服务；独立科研机构|\n|媒体、文化与娱乐|媒体、出版与内；文化、娱乐与体育|\n|农业与食品产业链|农林牧渔；食品生产与供应链|\n|政府与公共服务|政府机关与公共管理；事业单位与公共服务；社会组织与公益服务|\n|法律服务|诉讼与仲裁；商事与知识产权法律服务；公证、司法鉴定等法律服务|\n|能源、公用事业与环保|能源生产与矿业；公用事业；环保服务|\n|交通、物流与出行|物流与供应链；出行与运输服务；航空、铁路及公共交通|\n|建筑、地产与物业服务|建筑与工程；房地产开发；物业与设施管理|\n|供应链管理|需求预测与需求计划 ；供应计划与供需平衡；生产计划与排程；物料需求计划与缺料管理；库存控制与补货管理；供应链风险与异常协调|\n|采购|采购需求与技术规格管理；采购策略与供应商寻源；供应商评估与选择；询价招标、比价与成本分析；商务谈判与采购决策 ；采购合同准备与条款审查；采购订单核对与交接协同|\n|影视文娱/新媒体（10月29新增）||",
+      "locator": "第82-100行《行业分类》表（L1行业/L2行业配额）",
+      "normalized_value": "17 个 L1 根节点及各自 L2 子节点",
+      "derivation": "按行取第1列作 L1、第2列按“；”拆分作 L2；“影视文娱/新媒体（10月29新增）”行 L2 列为空，children 记 []，未补任何节点"
+    },
+    {
+      "source_id": "S022",
+      "key": "occupation_tree",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "> 填写L1，L2职业时，请按照职业分类树中的命名来进行填写**详见**[职业分类树](https://bytedance.larkoffice.com/wiki/NlldwK1Acip9hBklYwkco0dOn6k)",
+      "locator": "第60-62行《职业填写说明》",
+      "normalized_value": "职业分类树（外部来源）",
+      "derivation": "规范要求按职业分类树的“职业簇”与“典型职业”命名；本地同目录整理表 高经济题目职业树_整理表.xlsx 为其可读来源"
+    },
+    {
+      "source_id": "S023",
+      "key": "occupation_tree",
+      "file": "高经济题目职业树_整理表.xlsx",
+      "quote": "L1职业簇",
+      "locator": "职业树工作表!C1 表头“L1职业簇”",
+      "normalized_value": "42 个 L1 职业簇及其 L2 典型职业",
+      "derivation": "职业树按 板块/L1职业簇/L2典型职业 三列结构化；L2 单元格按换行、“、”“；”拆分，未新增规范外节点"
+    },
+    {
+      "source_id": "S024",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "**⚠️本任务不支持纯代码；不支持视频生成、图片生成、选题策划等偏创意、内容策划类题目，不收与业务工作场景无关的题目，如纯计算题，纯文案生成等**",
+      "locator": "第9行 任务范围禁止项",
+      "normalized_value": "不支持纯代码；不支持视频生成、图片生成、选题策划等偏创意、内容策划类题目；不收与业务工作场景无关的题目"
+    },
+    {
+      "source_id": "S025",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "1. **禁止跨行业出题**：单期任务内每位专家只能选择自己 L1 行业中的题目进行出题，如跨行业领取题目，**表格会自动清空内容**",
+      "locator": "第229行 注意事项1 禁止跨行业出题"
+    },
+    {
+      "source_id": "S026",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "2. **建议使用AI出题****：但**任务必须真实，具有现实意义，不能是架空场景或者虚构场景，可以在网络寻找真实材料，但请注意告知AI大模型检查并规避AI作业痕迹，质检如发现有 AI 作业痕迹的，将会被拒绝结算！！",
+      "locator": "第231行 注意事项2 任务必须真实"
+    },
+    {
+      "source_id": "S027",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "3. **禁止同质化出题：**同一专家的6题需要明显不同：至少应在任务目标、工作流程、任务类型或最终产物中的两个方面存在实质差异，如果仅做公司名称、产品、时间、语言、文件格式或数据内容的替换不算新的任务场景（场景是否雷同以项目组的判断为准）",
+      "locator": "第233行 注意事项3 禁止同质化出题"
+    },
+    {
+      "source_id": "S028",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "4. **单人出题上限6道：**最多出6题，卡bug多出的题目通过也不予结算！！",
+      "locator": "第235行 注意事项4 单人出题上限6道"
+    },
+    {
+      "source_id": "S029",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "5. **禁止重复出题：**本任务会查重，如发现题目与其他任务（无论是进行中的任务还是已结束的任务）中的题目相似度高题目按作废处理，是否相似以项目组判断为准，千万别拿其他项目的agent题目重复提交！",
+      "locator": "第237行 注意事项5 禁止重复出题"
+    },
+    {
+      "source_id": "S030",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "6. **禁止模版化出题：**出题过程会随机抽查，模板化出题专家将会被移除参与项目的资格",
+      "locator": "第239行 注意事项6 禁止模版化出题"
+    },
+    {
+      "source_id": "S031",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "7. **禁止套用公开评测集/竞赛题：**会对公开评测集进行查重，禁止对公开评测集仅修改数据就提交，如发现会在平台拉黑处理。",
+      "locator": "第241行 注意事项7 禁止套用公开评测集/竞赛题"
+    },
+    {
+      "source_id": "S032",
+      "key": "forbidden",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|不纳入的任务|判断方法|\n|---|---|\n|简单知识问答|主要考察“知不知道”，结果不会进入真实工作流程。|\n|单点事实、日期或定义查询|一次搜索即可完成；增加律师、医生或投资人角色，也不会自动变成高价值任务。|\n|单篇文章或单份材料摘要|只有信息压缩，没有形成比较、判断、决策或项目交付。|\n|普通润色、翻译、排版和简单制图|如果没有明确客户、会议、申报或业务用途，只是标准文档能力题。|\n|玩具代码和一次性小页面|没有真实系统、数据、使用者或后续研发动作。|\n|靠扩大范围制造“长任务”|例如无边界地要求“调研全部资料”或“做成上百页”，但没有真实使用方式和优先级。|\n|多个互不相关的小任务拼接|各部分没有共同目标，也不存在真实的前后依赖。|\n|缺少关键材料或权限|任务看起来真实，但当前信息不足以开始，或必须依赖未提供的私有环境与凭据。|",
+      "locator": "第176-185行《不纳入的任务》表（8类不纳入任务）",
+      "normalized_value": "8 类不纳入任务"
+    },
+    {
+      "source_id": "S033",
+      "key": "deadlines",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "**收题周期：11月4日\\-11月9日23:59:59分，截止时间后题目将不可修改**",
+      "locator": "第13行 收题周期"
+    },
+    {
+      "source_id": "S034",
+      "key": "deadlines",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "**质检周期：**收题结束后2\\-3周内（依实际情况而定）",
+      "locator": "第15行 质检周期"
+    },
+    {
+      "source_id": "S035",
+      "key": "deadlines",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "**返修说明：**最高不超过2次返修，难度结果会统一公布（三阶段不通过返修不占用返修次数）",
+      "locator": "第17行 返修说明"
+    },
+    {
+      "source_id": "S036",
+      "key": "deadlines",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "**返修三阶段最后时间：11月10日14:30前**",
+      "locator": "第21行 返修三阶段最后时间"
+    },
+    {
+      "source_id": "S037",
+      "key": "quality_gates",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "- 题目要素完备（提示词、附件、标答、考点等信息完备且符合规范）",
+      "locator": "第152行 收题难度要求 第1条"
+    },
+    {
+      "source_id": "S038",
+      "key": "quality_gates",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "- 题目完备性、AI率检测、高经济价值三项通过",
+      "locator": "第154行 收题难度要求 第2条"
+    },
+    {
+      "source_id": "S039",
+      "key": "quality_gates",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "- 题目足够困难（**分数必须满足**，轮数、时间二选一即为达标）",
+      "locator": "第156行 收题难度要求 第3条"
+    },
+    {
+      "source_id": "S040",
+      "key": "quality_gates",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "但您提供的附件必须与提示词相关",
+      "locator": "第160行《收题难度要求》指标表 Sota模型得分率 行 第2点",
+      "normalized_value": "附件必须与提示词相关"
+    },
+    {
+      "source_id": "S041",
+      "key": "attachment_policy",
+      "file": "高经济价值【八期】任务说明文档LANCER.V1.md",
+      "quote": "|**题目\\-附件**<br>|专家填写<br>|提供完成任务所需的真实或仿真材料，例如文档、表格、访谈记录、项目资料、业务数据、参考模板等。附件之间应服务于同一个复杂目标，不能只是多个无关材料的简单拼合<br>**注意事项：**<br>- 文件大小：可以直接上传文件或压缩包，**大小不超过2G**<br>- 格式：支持pdf/word/txt/rar等多种格式，其他格式不确定能否上传，可直接询问豆包是否支持<br>- 专家可根据自己需求判断附件是否需要脱敏|",
+      "locator": "第39行《出题字段说明》表 题目-附件 行",
+      "normalized_value": "pdf/word/txt/rar；不超过2G；可直接上传文件或压缩包",
+      "derivation": "文件大小“不超过2G”按 1G=1024^3 字节换算为 max_bytes=2147483648；格式只收原文明确列出的 pdf/word/txt/rar，其他格式原文写明“不确定能否上传”，不补值"
+    }
+  ],
+  "extraction_status": {
+    "project": "extracted",
+    "industry": "extracted",
+    "score_max": "extracted",
+    "score_rule": "extracted",
+    "any_of": "extracted",
+    "freebie_ratio_max": "not_applicable",
+    "platform_fields": "extracted",
+    "task_types": "extracted",
+    "industry_tree": "extracted",
+    "occupation_tree": "extracted",
+    "forbidden": "extracted",
+    "deadlines": "extracted",
+    "quality_gates": "extracted",
+    "attachment_policy": "extracted",
+    "history_refs": "not_applicable"
+  }
+}

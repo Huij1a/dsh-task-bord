@@ -1,0 +1,173 @@
+{
+  "summary": "01_src 完成：8 条素材（行政法规1/部门规章2/央行统计2/处罚公示3），来源索引与原文摘录一一对应，sha256 全部由磁盘重算一致。",
+  "artifacts": [
+    {
+      "id": "source_list",
+      "path": "artifacts/01_src/素材清单.md",
+      "exists": true,
+      "nonempty": true,
+      "json_ok": true,
+      "matches": 1
+    },
+    {
+      "id": "source_index",
+      "path": "artifacts/01_src/来源索引.csv",
+      "exists": true,
+      "nonempty": true,
+      "json_ok": true,
+      "matches": 1
+    },
+    {
+      "id": "source_excerpts",
+      "path": "artifacts/01_src/原文摘录/*.md",
+      "exists": true,
+      "nonempty": true,
+      "json_ok": true,
+      "matches": 8
+    }
+  ],
+  "conditions": {
+    "excerpts_one_to_one": true,
+    "excerpt_metadata_complete": true,
+    "excerpt_sha256_matches_index": true
+  },
+  "file_conclusion": {},
+  "reply_conclusion": {},
+  "extra": {
+    "audit": {
+      "index_rows": 8,
+      "excerpt_files": 8,
+      "one_to_one": true,
+      "index_source_ids": [
+        "SID01",
+        "SID02",
+        "SID03",
+        "SID04",
+        "SID05",
+        "SID06",
+        "SID07",
+        "SID08"
+      ],
+      "excerpt_source_ids": [
+        "SID01",
+        "SID02",
+        "SID03",
+        "SID04",
+        "SID05",
+        "SID06",
+        "SID07",
+        "SID08"
+      ],
+      "duplicate_source_ids": [],
+      "missing_excerpts": [],
+      "orphan_excerpts": [],
+      "index_sha_matches_disk": true,
+      "excerpts": [
+        {
+          "source_id": "SID01",
+          "path": "artifacts/01_src/原文摘录/SID01.md",
+          "index_sha256": "bcdb60d6199d3620599439aadb28c86fde587b2bede104f3708d75b27df6a49d",
+          "actual_sha256": "bcdb60d6199d3620599439aadb28c86fde587b2bede104f3708d75b27df6a49d",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID02",
+          "path": "artifacts/01_src/原文摘录/SID02.md",
+          "index_sha256": "24b769ef8784314f8a2ac395bf98aff44c5e894e7043f138dd56989cf6028b57",
+          "actual_sha256": "24b769ef8784314f8a2ac395bf98aff44c5e894e7043f138dd56989cf6028b57",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID03",
+          "path": "artifacts/01_src/原文摘录/SID03.md",
+          "index_sha256": "3fce5b792569bcda83099ee8308959a5bb8d3a4b5b826e275823295e1be222cb",
+          "actual_sha256": "3fce5b792569bcda83099ee8308959a5bb8d3a4b5b826e275823295e1be222cb",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID04",
+          "path": "artifacts/01_src/原文摘录/SID04.md",
+          "index_sha256": "255ac4b79979552338c4b836cfc5ecd366dabcc8a52652b1f559b410697f1dce",
+          "actual_sha256": "255ac4b79979552338c4b836cfc5ecd366dabcc8a52652b1f559b410697f1dce",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID05",
+          "path": "artifacts/01_src/原文摘录/SID05.md",
+          "index_sha256": "fe855dad85d1b9802049d8443ebd7b77842b90d2d366e922560c8d28ef699970",
+          "actual_sha256": "fe855dad85d1b9802049d8443ebd7b77842b90d2d366e922560c8d28ef699970",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID06",
+          "path": "artifacts/01_src/原文摘录/SID06.md",
+          "index_sha256": "2cfed10a350183a9c59eff2599ddfa6265a04b4d079aec62a7fda65042c0b909",
+          "actual_sha256": "2cfed10a350183a9c59eff2599ddfa6265a04b4d079aec62a7fda65042c0b909",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID07",
+          "path": "artifacts/01_src/原文摘录/SID07.md",
+          "index_sha256": "3d23b91d5eb6307283a0d6967323837e26c640488c913cd2f587bf991c3e644e",
+          "actual_sha256": "3d23b91d5eb6307283a0d6967323837e26c640488c913cd2f587bf991c3e644e",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        },
+        {
+          "source_id": "SID08",
+          "path": "artifacts/01_src/原文摘录/SID08.md",
+          "index_sha256": "d5b01f6801417eb8d44e11bbab899bfa66bd019e126afbf55662fed495cdbcc6",
+          "actual_sha256": "d5b01f6801417eb8d44e11bbab899bfa66bd019e126afbf55662fed495cdbcc6",
+          "sha_match": true,
+          "has_source_metadata": true,
+          "metadata_fields": {
+            "source_url": true,
+            "read_at": true,
+            "locator": true
+          }
+        }
+      ]
+    }
+  }
+}

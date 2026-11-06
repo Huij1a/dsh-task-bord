@@ -1,0 +1,771 @@
+{
+  "meta": {
+    "title": "保修责任裁定与关账（八期示范题）",
+    "total": 100,
+    "strategy": "fixed",
+    "items": 60
+  },
+  "items": [
+    {
+      "id": 1,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "R01 截止时点"
+      },
+      "expect": "2026-08-27 09:00",
+      "tol": 0,
+      "unit": "北京时间",
+      "text": "R01截止时点为北京时间2026-08-27 09:00"
+    },
+    {
+      "id": 2,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "R02 截止时点"
+      },
+      "expect": "2026-08-29 12:00",
+      "tol": 0,
+      "unit": "北京时间",
+      "text": "R02截止时点为北京时间2026-08-29 12:00"
+    },
+    {
+      "id": 3,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "R03 截止时点"
+      },
+      "expect": "2026-09-01 15:00",
+      "tol": 0,
+      "unit": "北京时间",
+      "text": "R03截止时点为北京时间2026-09-01 15:00"
+    },
+    {
+      "id": 4,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "R04 截止时点"
+      },
+      "expect": "2026-09-03 18:00",
+      "tol": 0,
+      "unit": "北京时间",
+      "text": "R04截止时点为北京时间2026-09-03 18:00"
+    },
+    {
+      "id": 5,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "R05 截止时点"
+      },
+      "expect": "2026-09-05 18:00",
+      "tol": 0,
+      "unit": "北京时间",
+      "text": "R05截止时点为北京时间2026-09-05 18:00"
+    },
+    {
+      "id": 6,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "记录只在 known_at 不晚于对应截止时点时进入该时点"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "记录只在 known_at 不晚于对应截止时点时进入该时点"
+    },
+    {
+      "id": 7,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "业务终态按 business_time 和 version 确定"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "业务终态按 business_time 和 version 确定"
+    },
+    {
+      "id": 8,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "申请事件先按 event_id 去重"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "申请事件先按 event_id 去重"
+    },
+    {
+      "id": 9,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "有效 VOID 及其 reverses 指向事件均不参与业务终态"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "有效 VOID 及其 reverses 指向事件均不参与业务终态"
+    },
+    {
+      "id": 10,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "责任裁定按拒绝、自费、保险、零售、退款、换新、维修的顺序执行"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "责任裁定按拒绝、自费、保险、零售、退款、换新、维修的顺序执行"
+    },
+    {
+      "id": 11,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "案件总数"
+      },
+      "expect": 2400,
+      "tol": 0,
+      "unit": "单",
+      "text": "案件总数为2400单"
+    },
+    {
+      "id": 12,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "品牌维修"
+      },
+      "expect": 920,
+      "tol": 0,
+      "unit": "单",
+      "text": "品牌维修为920单"
+    },
+    {
+      "id": 13,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "品牌换新"
+      },
+      "expect": 360,
+      "tol": 0,
+      "unit": "单",
+      "text": "品牌换新为360单"
+    },
+    {
+      "id": 14,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "退款"
+      },
+      "expect": 140,
+      "tol": 0,
+      "unit": "单",
+      "text": "退款为140单"
+    },
+    {
+      "id": 15,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "零售商责任"
+      },
+      "expect": 260,
+      "tol": 0,
+      "unit": "单",
+      "text": "零售商责任为260单"
+    },
+    {
+      "id": 16,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "保险责任"
+      },
+      "expect": 240,
+      "tol": 0,
+      "unit": "单",
+      "text": "保险责任为240单"
+    },
+    {
+      "id": 17,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "客户自费"
+      },
+      "expect": 300,
+      "tol": 0,
+      "unit": "单",
+      "text": "客户自费为300单"
+    },
+    {
+      "id": 18,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "拒绝受理"
+      },
+      "expect": 180,
+      "tol": 0,
+      "unit": "单",
+      "text": "拒绝受理为180单"
+    },
+    {
+      "id": 19,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "品牌执行案件"
+      },
+      "expect": 1420,
+      "tol": 0,
+      "unit": "单",
+      "text": "品牌执行案件为1420单"
+    },
+    {
+      "id": 20,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "精确重复申请事件"
+      },
+      "expect": 480,
+      "tol": 0,
+      "unit": "条",
+      "text": "被排除的精确重复申请事件为480条"
+    },
+    {
+      "id": 21,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "品牌毛成本"
+      },
+      "expect": 2774660,
+      "tol": 0,
+      "unit": "元",
+      "text": "品牌毛成本为2774660元"
+    },
+    {
+      "id": 22,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "供应商追偿"
+      },
+      "expect": 124827,
+      "tol": 0,
+      "unit": "元",
+      "text": "供应商追偿为124827元"
+    },
+    {
+      "id": 23,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "净准备金占用"
+      },
+      "expect": 2649833,
+      "tol": 0,
+      "unit": "元",
+      "text": "净准备金占用为2649833元"
+    },
+    {
+      "id": 24,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "准备金关账",
+        "key": "可用准备金"
+      },
+      "expect": 3600000,
+      "tol": 0,
+      "unit": "元",
+      "text": "可用准备金为3600000元"
+    },
+    {
+      "id": 25,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "准备金余额"
+      },
+      "expect": 950167,
+      "tol": 0,
+      "unit": "元",
+      "text": "准备金余额为950167元"
+    },
+    {
+      "id": 26,
+      "score": 2,
+      "kind": "derived",
+      "where": {
+        "rule": "A11 现金日历 期初现金"
+      },
+      "expect": 4000000,
+      "tol": 0,
+      "unit": "元",
+      "text": "期初现金为4000000元"
+    },
+    {
+      "id": 27,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "最低日终现金"
+      },
+      "expect": 1225340,
+      "tol": 0,
+      "unit": "元",
+      "text": "最低日终现金为1225340元"
+    },
+    {
+      "id": 28,
+      "score": 2,
+      "kind": "row",
+      "where": {
+        "sheet": "约束检查",
+        "key": "现金",
+        "col": 2
+      },
+      "expect": "通过",
+      "tol": 0,
+      "unit": "元",
+      "text": "日终现金底线为1200000元"
+    },
+    {
+      "id": 29,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "保护销售额"
+      },
+      "expect": 7008000,
+      "tol": 0,
+      "unit": "元",
+      "text": "保护销售额为7008000元"
+    },
+    {
+      "id": 30,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "维修人工分钟"
+      },
+      "expect": 136160,
+      "tol": 0,
+      "unit": "分钟",
+      "text": "维修人工分钟为136160分钟"
+    },
+    {
+      "id": 31,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "维修部件"
+      },
+      "expect": 920,
+      "tol": 0,
+      "unit": "个",
+      "text": "维修部件为920个"
+    },
+    {
+      "id": 32,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "换新设备"
+      },
+      "expect": 360,
+      "tol": 0,
+      "unit": "台",
+      "text": "换新设备为360台"
+    },
+    {
+      "id": 33,
+      "score": 2,
+      "kind": "row",
+      "where": {
+        "sheet": "五时点沿革",
+        "key": "R05",
+        "col": 4
+      },
+      "expect": 140,
+      "tol": 0,
+      "unit": "单",
+      "text": "退款排程为140单"
+    },
+    {
+      "id": 34,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "最终结论",
+        "col": 2
+      },
+      "expect": "批准",
+      "tol": 0,
+      "unit": "",
+      "text": "R05最终结论为批准保修责任、返修产能与换新准备金关账方案"
+    },
+    {
+      "id": 35,
+      "score": 2,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "最终结论",
+        "col": 4
+      },
+      "expect": "待执行",
+      "tol": 0,
+      "unit": "",
+      "text": "维修、换新、退款和转运均标记为待执行"
+    },
+    {
+      "id": 36,
+      "score": 2,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "E2"
+      },
+      "expect": "无解",
+      "tol": 0,
+      "unit": "",
+      "text": "R04的G00资源方案结论为无解"
+    },
+    {
+      "id": 37,
+      "score": 2,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "E3"
+      },
+      "expect": "无解",
+      "tol": 0,
+      "unit": "",
+      "text": "R04的G01资源方案结论为无解"
+    },
+    {
+      "id": 38,
+      "score": 2,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "E4"
+      },
+      "expect": "无解",
+      "tol": 0,
+      "unit": "",
+      "text": "R04的G02资源方案结论为无解"
+    },
+    {
+      "id": 39,
+      "score": 2,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "E5"
+      },
+      "expect": "无解",
+      "tol": 0,
+      "unit": "",
+      "text": "R04的G03资源方案结论为无解"
+    },
+    {
+      "id": 40,
+      "score": 2,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "E6"
+      },
+      "expect": "首次可行",
+      "tol": 0,
+      "unit": "",
+      "text": "R04的G04资源方案结论为首次可行"
+    },
+    {
+      "id": 41,
+      "score": 1,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "B6"
+      },
+      "expect": 120,
+      "tol": 0,
+      "unit": "个",
+      "text": "R04首次恢复可行需要新增120个"
+    },
+    {
+      "id": 42,
+      "score": 1,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "C6"
+      },
+      "expect": 6,
+      "tol": 0,
+      "unit": "个",
+      "text": "R04首次恢复可行需要新增6个"
+    },
+    {
+      "id": 43,
+      "score": 1,
+      "kind": "cell",
+      "where": {
+        "sheet": "R04恢复边界",
+        "cell": "D6"
+      },
+      "expect": 42,
+      "tol": 0,
+      "unit": "台",
+      "text": "R04首次恢复可行需要新增42台"
+    },
+    {
+      "id": 44,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "序列号不一致"
+      },
+      "expect": "拒绝受理",
+      "tol": 0,
+      "unit": "",
+      "text": "序列号不一致的案件裁定为拒绝受理"
+    },
+    {
+      "id": 45,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "保修过期且无其他责任"
+      },
+      "expect": "客户自费",
+      "tol": 0,
+      "unit": "",
+      "text": "保修过期且无其他责任的案件裁定为客户自费"
+    },
+    {
+      "id": 46,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "有效保险预授权"
+      },
+      "expect": "保险责任",
+      "tol": 0,
+      "unit": "",
+      "text": "有效保险预授权的案件裁定为保险责任"
+    },
+    {
+      "id": 47,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "有效渠道责任"
+      },
+      "expect": "零售商责任",
+      "tol": 0,
+      "unit": "",
+      "text": "有效渠道责任的案件裁定为零售商责任"
+    },
+    {
+      "id": 48,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "同故障多次维修且客户确认退款"
+      },
+      "expect": "退款",
+      "tol": 0,
+      "unit": "",
+      "text": "同故障多次维修且客户确认退款的案件裁定为退款"
+    },
+    {
+      "id": 49,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "最终诊断不可修复"
+      },
+      "expect": "品牌换新",
+      "tol": 0,
+      "unit": "",
+      "text": "最终诊断不可修复的案件裁定为品牌换新"
+    },
+    {
+      "id": 50,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "其余全部门禁通过"
+      },
+      "expect": "品牌维修",
+      "tol": 0,
+      "unit": "",
+      "text": "其余全部门禁通过的案件裁定为品牌维修"
+    },
+    {
+      "id": 51,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "品牌执行范围"
+      },
+      "expect": [
+        "品牌维修",
+        "品牌换新",
+        "退款"
+      ],
+      "tol": 0,
+      "unit": "",
+      "text": "只有品牌维修、品牌换新和退款进入品牌执行排程"
+    },
+    {
+      "id": 52,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "毛成本范围"
+      },
+      "expect": false,
+      "tol": 0,
+      "unit": "",
+      "text": "零售商、保险、客户自费和拒绝案件不计品牌毛成本"
+    },
+    {
+      "id": 53,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "维修部件同时满足型号适配、批次可用和效期条件"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "维修部件同时满足型号适配、批次可用和效期条件"
+    },
+    {
+      "id": 54,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "维修技师的部件认证和计划班次有效"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "维修技师的部件认证和计划班次有效"
+    },
+    {
+      "id": 55,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "每个中心日的维修分钟不超过可用分钟"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "每个中心日的维修分钟不超过可用分钟"
+    },
+    {
+      "id": 56,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "全部计划日期不晚于北京时间2026年9月12日"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "全部计划日期不晚于北京时间2026年9月12日"
+    },
+    {
+      "id": 57,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "换新型号、中心库存和转运容量全部匹配"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "换新型号、中心库存和转运容量全部匹配"
+    },
+    {
+      "id": 58,
+      "score": 1,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "净准备金占用"
+      },
+      "expect": 2649833,
+      "tol": 0,
+      "unit": "元",
+      "text": "净准备金占用不超过3,600,000元"
+    },
+    {
+      "id": 59,
+      "score": 1,
+      "kind": "summary",
+      "where": {
+        "sheet": "决策摘要",
+        "key": "最低日终现金"
+      },
+      "expect": 1225340,
+      "tol": 0,
+      "unit": "元",
+      "text": "每个计划日的日终现金不低于1,200,000元"
+    },
+    {
+      "id": 60,
+      "score": 1,
+      "kind": "derived",
+      "where": {
+        "rule": "跨文件一致"
+      },
+      "expect": true,
+      "tol": 0,
+      "unit": "布尔",
+      "text": "C01、C02和C03的案件集合、处置、金额和状态一致"
+    }
+  ]
+}

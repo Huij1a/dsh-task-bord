@@ -1,0 +1,127 @@
+{
+  "task": "T-20261106-01",
+  "industry": "金融服务/银行、支付与消费金融",
+  "spec": "D:\\字节项目\\高经济价值【八期】任务说明文档LANCER.V1_",
+  "version": "v008",
+  "template_version": "v008",
+  "template_sha": "10d0e719fb8e3a51dc0db5c300d0017a0cbc25c018a69a20764bb3ad82f886aa",
+  "frozen_at": "2026-11-06T02:20:03.405Z",
+  "files": [
+    {
+      "path": "prompts/00_master.md",
+      "bytes": 17609,
+      "sha256": "387d5880af983290c6213953f7a444748d5b91f1f96772efa0ba138702441828"
+    },
+    {
+      "path": "prompts/00_spec.md",
+      "bytes": 14029,
+      "sha256": "5b98b0d2d7689b6b23def7401e7fec5b59fdfdb78c6d12a627cc2585b6c849fd"
+    },
+    {
+      "path": "prompts/01_src.md",
+      "bytes": 5700,
+      "sha256": "ab9d667a7db969652f3173095b62198bb79422c5ba10d39a9ebeaea22eea898b"
+    },
+    {
+      "path": "prompts/02_scrub.md",
+      "bytes": 5078,
+      "sha256": "1d95bffbcd430df182379f0ebbc44c52036f64c35700454169b8f1f5b4ed34f6"
+    },
+    {
+      "path": "prompts/03_survey.md",
+      "bytes": 4230,
+      "sha256": "20834b22834eeb557d769caa3b94364e032be872c10bf89cbbd73808a6e9f39d"
+    },
+    {
+      "path": "prompts/04_scope.md",
+      "bytes": 8714,
+      "sha256": "ee5963665f7f63189480d97cf3842fe69d5869d45ea6572032eab3a0036848ba"
+    },
+    {
+      "path": "prompts/05_evidence.md",
+      "bytes": 11482,
+      "sha256": "b68ec9b3ecc92fe9c75a6d97d147959085f73249a9170ff1a0fd0ab7557eb9cd"
+    },
+    {
+      "path": "prompts/06_build.md",
+      "bytes": 11751,
+      "sha256": "c32d5a2bcc22ba17129bc47c4b8b93e169257c3fae9a10fb52288631387613f7"
+    },
+    {
+      "path": "prompts/07_metacheck.md",
+      "bytes": 5621,
+      "sha256": "362746452aff746f7c6d3c6c92bdad76640f8558dddd2251616a1a6ce23688f7"
+    },
+    {
+      "path": "prompts/08_prompt.md",
+      "bytes": 6732,
+      "sha256": "095aaee59ddea8d4dcf3fb1b1a2fe6e8102b7b432b64993205683c143b14785d"
+    },
+    {
+      "path": "prompts/09_style.md",
+      "bytes": 6874,
+      "sha256": "8a915372d9db74703703895f1e11f9104358b1eb5ee7585283d54fcaa426a2c7"
+    },
+    {
+      "path": "prompts/10_difficulty.md",
+      "bytes": 9513,
+      "sha256": "9ecba53d1445caf77fdfe27e0ca859dc7b2a686d3339f191d498aa230ba273a0"
+    },
+    {
+      "path": "prompts/11_rubric.md",
+      "bytes": 18062,
+      "sha256": "d7644ca4bc678a9862cc089b1b1d28681c9abb4566375695ed720c2e37a7463b"
+    },
+    {
+      "path": "prompts/12_freeze.md",
+      "bytes": 12970,
+      "sha256": "2023763cddaf3465c4743eb18b4cdc89720f74cc7016261723dc561f69635351"
+    },
+    {
+      "path": "prompts/13_answer.md",
+      "bytes": 6385,
+      "sha256": "e3521d6a89c1038bd3254e2fc484f40ed229e23dc76c4e633f5930c8f771e1a5"
+    },
+    {
+      "path": "prompts/14_score.md",
+      "bytes": 22522,
+      "sha256": "f63649cf5fdbca79216dcf1c274d85e2080ee492e048be9c2ffbb233a2f5c6ad"
+    },
+    {
+      "path": "prompts/15_review.md",
+      "bytes": 9699,
+      "sha256": "037a13e4bc39c60864cb868bc150787d35f9f11e645f5cc2ec14e44bd1ea5d29"
+    },
+    {
+      "path": "prompts/16_qc.md",
+      "bytes": 11442,
+      "sha256": "76774da5b4bd038063ae4a5ce8255ea8cc0e10861a4ada789c01321b7381fd7c"
+    },
+    {
+      "path": "prompts/17_pack.md",
+      "bytes": 10521,
+      "sha256": "b2b986550e335e1f1bc6121652d72cb9d57a0684f699a6af82ccb2b2c5d4e17d"
+    },
+    {
+      "path": "prompts/18_submit.md",
+      "bytes": 14352,
+      "sha256": "ec226c564535386a458eb3df09fd50a9b88138bf5cd13c85429a61316c27c671"
+    },
+    {
+      "path": "judge.py",
+      "bytes": 61575,
+      "sha256": "985c6b2a0abb092db1d867cb78a850d9229d093a00990346b6241c48c397a00e"
+    },
+    {
+      "path": "workflow.js",
+      "bytes": 78207,
+      "sha256": "91bdc0e87689f58983ae6d7adfa0a7c591949c5f08d9eb48769c57575494f9f0"
+    },
+    {
+      "path": "workflow_s2.js",
+      "bytes": 6408,
+      "sha256": "60b6fa560ef433a2f8c2c1bd0810f59b0502c75d865518bb3c194efd4749a64b"
+    }
+  ],
+  "rule": "节点执行前校验 SHA-256；改提示词必须新开版本，不能改已跑过的题。"
+}
