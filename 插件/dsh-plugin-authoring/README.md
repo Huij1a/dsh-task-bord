@@ -1,144 +1,68 @@
 # dsh-task-board
 
-通用的 DSH 任务看板 + 工作流画布插件
+通用的 DSH 任务看板 + 工作流画布插件。
 
 ## 功能
 
-### 任务看板
-- **四栏布局**：草稿、正在跑、已完成、异常中断
-- 自动读取任务目录的 `manifest.json` 和产物门禁
-- 支持自定义任务根目录和节点配置
+### 四栏看板
+- 草稿 / 正在跑 / 已完成 / 异常中断
+- 自动读取 `tasks/<任务ID>/manifest.json` 与 `artifacts/<节点>/_gate.json`
+- 每张任务卡显示任务号、行业、20 段节点进度条、相对更新时间
+- 5 秒轮询刷新
 
 ### 工作流画布
-- React Flow 可视化流程图
-- 节点状态实时同步（pending/running/passed/failed）
-- 节点间连线自动生成，running 状态带动画效果
-- 支持缩放、平移和自动适配视口
+- React Flow 画布，20 个节点蛇形布局（5×4）
+- 节点状态着色：待执行 / 运行中 / 已通过 / 失败
+- 缩放、平移、自动适配视口
 
-### 子代理会话跳转
-- 点击节点打开对应子代理会话
-- 支持 `continuable` 模式，可继续对话
-- 自动读取 `_session.json` 获取会话 ID
+### 点节点打开子代理会话
+- 会话映射自动从父会话事件流 `tool-workflow/agent-start` 解析，无需节点自己写 `_session.json`
+- 点击节点先加载父会话，再以 `continuable` 模式打开对应的子代理会话，可以直接继续对话
 
-## 设计理念
-
-这是一个**通用的任务看板插件**，不绑定特定业务场景。它通过读取任务目录的标准化文件结构来展示状态：
+## 数据来源
 
 ```
 tasks/<任务ID>/
-├── manifest.json           # 任务元信息（必需）
-├── artifacts/<节点>/
-│   ├── _gate.json         # 门禁结果（必需）
-│   └── _session.json      # 会话 ID（可选）
-└── ...
+├── manifest.json               # 任务元信息（必需）
+└── artifacts/<节点>/
+    └── _gate.json             # 门禁结果（必需）
 ```
 
-只要你的 workflow 按这个结构输出产物，看板就能自动工作。
+节点状态判定优先级：
 
-## 使用场景
+1. `_gate.json` 的 `conditions`：全 true → 已通过；有 false → 失败
+2. 没有 `_gate.json` 时，按会话事件流里的 `tool-workflow/agent-end`：`completed` → 通过，`failed` / `cancelled` → 失败，没有结束事件 → 运行中
 
-- ✅ 多节点 workflow 执行监控
-- ✅ 子代理编排可视化
-- ✅ 长时间运行任务的进度追踪
-- ✅ 团队协作的任务状态共享
-
-**我们用它来做什么**：19 节点出题流水线的任务监控
-
-**你可以用它来做什么**：
-- 数据处理流水线
-- 多阶段测试任务
-- 文档生成 workflow
-- 任何需要可视化多节点执行状态的场景
+任务状态：有失败节点 → 异常中断；20 个节点全部通过 → 已完成；有节点启动 → 正在跑；否则 → 草稿。
 
 ## 配置
 
-### 插件配置（cordis.patch.yml）
-
 ```yaml
 - insert:
-  - name: dsh-plugin-authoring
-    config:
-      # 任务根目录（包含 tasks/ 子目录）
-      root: D:\你的项目目录
-      
-      # 模板目录（可选，用于 authoring_init 工具）
-      templateDir: 母版
-      
-      # 最大任务数量（看板列表上限）
-      maxTasks: 200
-      
-      # 节点名称列表（自定义你的 workflow 节点）
-      nodes:
-        - node_01
-        - node_02
-        - node_03
+    - name: dsh-plugin-authoring
+      config:
+        root: D:\你的项目目录    # 包含 tasks/ 子目录
+        templateDir: 母版        # authoring_init 用的模板目录
+        maxTasks: 200
 ```
 
-### 数据格式
-
-#### manifest.json（必需）
-
-```json
-{
-  "taskId": "task-001",
-  "title": "任务标题",
-  "description": "任务描述",
-  "industry": "分类标签"  // 可选，用于看板展示
-}
-```
-
-#### _gate.json（必需）
-
-每个节点执行后写入 `artifacts/<节点>/_gate.json`：
-
-```json
-{
-  "ok": true,
-  "pass": true,           // true=通过, false=失败, null/undefined=运行中
-  "failures": [],         // 失败原因列表
-  "summary": "节点摘要"
-}
-```
-
-#### _session.json（可选）
-
-如果需要会话跳转功能，写入 `artifacts/<节点>/_session.json`：
-
-```json
-{
-  "childSessionId": "会话ID",
-  "parentSessionId": "父会话ID",  // 可选
-  "timestamp": "2026-11-06T08:00:00Z"
-}
-```
+可选配置：`sessionsDir`（默认 `~/.dsh/sessions`）、`answerRoot`（默认 `D:\高经作答区`）、`isolationAllowPaths`。
 
 ## 安装
 
-### 1. 安装依赖
-
 ```bash
 cd 插件/dsh-plugin-authoring
-pnpm install
+pnpm install          # 安装 esbuild / @xyflow/react 等开发依赖
+pnpm run build        # 生成 client.js（已提交，可跳过）
 ```
 
-### 2. 构建客户端
+在 DSH profile 的 `package.json` 里声明本地软链（开发时改源码立即生效）：
 
-```bash
-pnpm run build
+```json
+"dsh-plugin-authoring": "link:D:/你的项目目录/插件/dsh-plugin-authoring"
 ```
 
-### 3. 安装到 DSH profile
-
-```bash
-cd "C:\Users\Administrator\.dsh\profiles\desktop"
-pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring"
-```
-
-### 4. 配置插件
-
-编辑 `cordis.patch.yml`，添加插件配置（见上文）。
-
-### 5. 重启 DSH
+然后 `pnpm install`，DSH 会自动热加载，无需重启。
 
 ## 开发
 
@@ -146,92 +70,82 @@ pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring"
 
 ```
 插件/dsh-plugin-authoring/
-├── index.js              # 服务端插件入口
-├── board-state.js        # 看板状态读取逻辑
-├── client.jsx            # 客户端 UI (React + React Flow)
-├── client.css            # 客户端样式
-├── build-client.mjs      # esbuild 构建脚本
-├── package.json          # 插件配置
-└── README.md             # 本文件
+├── index.js            # 服务端插件入口（工具 + /api/authoring/board）
+├── board-state.js      # 看板数据：tasks + artifacts + 会话事件流
+├── client.jsx          # 客户端 UI（React + React Flow）
+├── client.css          # 客户端样式（DSH 设计令牌）
+├── styles.gen.js       # 构建时由 client.css 生成，勿手改
+├── build-client.mjs    # esbuild 构建脚本
+├── client.js           # 构建产物，DSH 浏览器端实际加载
+└── package.json
 ```
 
-### 修改客户端代码后
+### 客户端打包格式（重要）
 
-```bash
-pnpm run build
+DSH 浏览器端插件不是普通 ESM，必须打成：
+
+```js
+window.__ModuleLoader__.load({
+  id: "dsh-plugin-authoring",
+  factory: (require) => {
+    var module = { exports: {} };
+    var exports = module.exports;
+    Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+    // ...CJS 代码，通过 require("react") 取平台模块...
+    exports.apply = apply;
+    exports.inject = inject;
+    return module.exports;
+  },
+});
 ```
 
-然后在 DSH 中刷新页面（Ctrl+R）。
+`build-client.mjs` 已处理：esbuild 输出 CJS → 套 ModuleLoader 壳 → 把 `client.css` 与 React Flow 基础样式以字符串形式注入。
 
-### 修改服务端代码后
+### 改代码后
 
-重新安装插件并重启 DSH：
-
-```bash
-cd "C:\Users\Administrator\.dsh\profiles\desktop"
-pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring" --force
-# 然后重启 DSH
-```
+- 客户端：`pnpm run build`，DSH 客户端会自动重载
+- 服务端：DSH 的 HMR 会监听 profile 的 `cordis.patch.yml` / `package.json`；改完源码后 touch 一下 `cordis.patch.yml` 即可热重载
+- `board-state.js` 采用 mtime 缓存穿透导入，改完下次请求即生效
 
 ## API
 
-### 服务端接口
-
 **GET /api/authoring/board**
-
-返回格式：
 
 ```json
 {
   "tasks": [
     {
-      "taskId": "task-001",
-      "industry": "分类标签",
-      "status": "running",  // draft | running | completed | failed
+      "taskId": "T-20261106-03",
+      "industry": "金融服务/银行、支付与消费金融",
+      "status": "running",
+      "passed": 2,
+      "failed": 0,
+      "total": 20,
       "nodes": [
         {
-          "name": "node_01",
-          "status": "passed",  // pending | running | passed | failed
-          "pass": true,
+          "name": "00_spec",
+          "label": "规范",
+          "batch": "A",
+          "index": 0,
+          "status": "passed",
+          "outcome": "completed",
+          "summary": "",
           "failures": [],
-          "summary": "节点摘要",
-          "sessionId": "会话ID"  // 可能为 null
+          "sessionId": "838b2200-205d-4d20-be96-45381b1915df",
+          "parentSessionId": "session-64245646-3abc-47cd-b91f-9b1fa3100269",
+          "startedAt": 1793938297719
         }
       ]
     }
-  ]
+  ],
+  "nodes": ["..."],
+  "generatedAt": 1793957000000
 }
 ```
 
-### 客户端组件
-
-- `BoardView` - 四栏看板主视图
-- `WorkflowCanvas` - React Flow 工作流画布
-- `buildFlowGraph` - 构建 React Flow 图结构
-
-## 扩展
-
-### 自定义节点渲染
-
-修改 `client.jsx` 的 `buildFlowGraph` 函数，自定义节点的位置、样式和数据。
-
-### 自定义看板分栏逻辑
-
-修改 `board-state.js` 的状态判断逻辑，改变任务如何归类到四个栏。
-
-### 添加自定义工具
-
-在 `index.js` 中添加新的工具定义，通过 `ctx.tools.register` 注册。
-
 ## 依赖
 
-- `@xyflow/react@^12.3.5` - React Flow 工作流可视化
-- `esbuild@^0.24.2` - 客户端构建
+- `@xyflow/react` — 工作流画布
+- `esbuild` — 客户端打包
 
-DSH 提供的 external 依赖：
-- `react` / `react-dom` / `react/jsx-runtime`
-- `@deepseek-ai/dsh-client-ui-*`
-
-## 许可
-
-MIT
+React / React DOM 由 DSH 宿主提供（`factory(require)` 的 require 可直接取）。

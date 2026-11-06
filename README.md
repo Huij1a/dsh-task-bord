@@ -24,7 +24,9 @@ cd 插件/dsh-plugin-authoring
 pnpm install && pnpm run build
 
 cd "C:\Users\Administrator\.dsh\profiles\desktop"
-pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring"
+# 在 profile 的 package.json 里加软链，开发时改源码立即生效
+# "dsh-plugin-authoring": "link:D:/你的项目目录/插件/dsh-plugin-authoring"
+pnpm install
 ```
 
 ### 2. 配置插件
@@ -40,9 +42,9 @@ pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring"
       maxTasks: 200
 ```
 
-### 3. 重启 DSH
+### 3. 热加载
 
-重启后侧边栏会出现"任务看板"入口。
+DSH 会监听 profile 配置变化并自动热加载，侧边栏出现"任务看板"入口即可使用，无需重启。
 
 ## 数据格式
 
@@ -51,12 +53,11 @@ pnpm add "file:D:/你的项目目录/插件/dsh-plugin-authoring"
 ```
 tasks/<任务ID>/
 ├── manifest.json           # 任务元信息
-├── artifacts/<节点>/
-│   ├── _gate.json         # 门禁结果（必需）
-│   └── _session.json      # 会话 ID（可选，用于会话跳转）
+└── artifacts/<节点>/
+    └── _gate.json         # 门禁结果（必需）
 ```
 
-只要你的 workflow 按这个结构输出产物，看板就能自动工作。详见 [插件/dsh-plugin-authoring/README.md](插件/dsh-plugin-authoring/README.md)。
+节点对应的子代理会话从父会话事件流自动解析，不需要额外文件。只要你的 workflow 按这个结构输出产物，看板就能自动工作。详见 [插件/dsh-plugin-authoring/README.md](插件/dsh-plugin-authoring/README.md)。
 
 ## 项目结构
 
