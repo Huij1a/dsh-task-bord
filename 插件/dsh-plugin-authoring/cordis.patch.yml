@@ -1,0 +1,21 @@
+# DSH 插件客户端配置
+# 声明侧边栏入口和主区域页面
+
+- id: authoring-board-sidebar
+  name: '@deepseek-ai/dsh-client-ui-slots'
+  config:
+    slots:
+      sidebar.panellist:
+        - id: authoring-board-panel
+          priority: 100
+          label: 任务看板
+          icon: kanban-square
+          panel: authoring-board-main
+
+- id: authoring-board-main
+  name: '@deepseek-ai/dsh-client-ui-slots'
+  config:
+    slots:
+      main:
+        - id: authoring-board-view
+          kind: authoring-board
