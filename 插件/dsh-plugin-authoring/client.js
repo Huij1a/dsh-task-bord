@@ -9470,7 +9470,35 @@ function TaskCard({ task, onClick }) {
 function WorkflowCanvas({ task, onBack }) {
   const { nodes, edges } = React.useMemo(() => buildFlowGraph(task.nodes), [task.nodes]);
   const onNodeClick = React.useCallback((event, node) => {
-    console.log("[authoring-board] open node session:", task.taskId, node.id);
+    const nodeName = node.id;
+    const sessionId = node.data?.sessionId;
+    if (!sessionId) {
+      console.log("[authoring-board] node session not found:", task.taskId, nodeName);
+      alert(`\u8282\u70B9 ${nodeName} \u7684\u4F1A\u8BDD ID \u672A\u627E\u5230
+
+\u53EF\u80FD\u539F\u56E0:
+- \u8282\u70B9\u5C1A\u672A\u6267\u884C
+- \u4EFB\u52A1\u4F7F\u7528\u65E7\u7248 workflow\uFF08\u672A\u8BB0\u5F55\u4F1A\u8BDD ID\uFF09
+
+\u9700\u8981 workflow.js \u5728\u8282\u70B9\u6267\u884C\u540E\u8BB0\u5F55 _session.json`);
+      return;
+    }
+    console.log("[authoring-board] opening node session:", task.taskId, nodeName, sessionId);
+    const ctx = window.__DSH_CTX__;
+    if (ctx?.uiWorkspace?.openSession) {
+      try {
+        ctx.uiWorkspace.openSession({
+          childSessionId: sessionId,
+          mode: "continuable"
+        });
+      } catch (e) {
+        console.error("[authoring-board] failed to open session:", e);
+        alert(`\u6253\u5F00\u4F1A\u8BDD\u5931\u8D25: ${e.message}`);
+      }
+    } else {
+      console.warn("[authoring-board] uiWorkspace.openSession not available");
+      alert("\u4F1A\u8BDD\u6253\u5F00\u529F\u80FD\u4E0D\u53EF\u7528\n\n\u8BF7\u786E\u8BA4 DSH \u7248\u672C\u652F\u6301 uiWorkspace.openSession");
+    }
   }, [task.taskId]);
   return React.createElement(
     "div",

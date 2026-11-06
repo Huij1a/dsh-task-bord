@@ -46,11 +46,20 @@ export async function getBoardState(root = DEFAULT_ROOT) {
 
     for (const nodeName of nodeNames) {
       const gatePath = path.join(taskDir, "artifacts", nodeName, "_gate.json");
+      const sessionPath = path.join(taskDir, "artifacts", nodeName, "_session.json");
+      
       let gate;
       try {
         gate = JSON.parse(await fs.readFile(gatePath, "utf8"));
       } catch {
         gate = null;
+      }
+
+      let session = null;
+      try {
+        session = JSON.parse(await fs.readFile(sessionPath, "utf8"));
+      } catch {
+        // _session.json 可能不存在（旧任务或尚未执行的节点）
       }
 
       let nodeStatus = "pending";
@@ -77,6 +86,7 @@ export async function getBoardState(root = DEFAULT_ROOT) {
         pass: gate?.pass,
         failures: gate?.failures || [],
         summary: gate?.summary || "",
+        sessionId: session?.childSessionId || null,
       });
     }
 

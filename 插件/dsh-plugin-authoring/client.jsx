@@ -119,8 +119,34 @@ function WorkflowCanvas({ task, onBack }) {
   const { nodes, edges } = React.useMemo(() => buildFlowGraph(task.nodes), [task.nodes]);
   
   const onNodeClick = React.useCallback((event, node) => {
-    // 触发原 NodeRow 的 handleClick 逻辑
-    console.log('[authoring-board] open node session:', task.taskId, node.id);
+    const nodeName = node.id;
+    const sessionId = node.data?.sessionId;
+    
+    if (!sessionId) {
+      console.log('[authoring-board] node session not found:', task.taskId, nodeName);
+      alert(`节点 ${nodeName} 的会话 ID 未找到\n\n可能原因:\n- 节点尚未执行\n- 任务使用旧版 workflow（未记录会话 ID）\n\n需要 workflow.js 在节点执行后记录 _session.json`);
+      return;
+    }
+
+    console.log('[authoring-board] opening node session:', task.taskId, nodeName, sessionId);
+    
+    // 尝试使用 ctx.uiWorkspace.openSession 打开会话
+    // 注意：ctx 需要从插件注入，这里先用 window.__DSH_CTX__ 作为备用
+    const ctx = window.__DSH_CTX__;
+    if (ctx?.uiWorkspace?.openSession) {
+      try {
+        ctx.uiWorkspace.openSession({ 
+          childSessionId: sessionId, 
+          mode: 'continuable' 
+        });
+      } catch (e) {
+        console.error('[authoring-board] failed to open session:', e);
+        alert(`打开会话失败: ${e.message}`);
+      }
+    } else {
+      console.warn('[authoring-board] uiWorkspace.openSession not available');
+      alert('会话打开功能不可用\n\n请确认 DSH 版本支持 uiWorkspace.openSession');
+    }
   }, [task.taskId]);
 
   return React.createElement(
